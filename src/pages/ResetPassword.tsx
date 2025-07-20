@@ -26,7 +26,7 @@ const validationSchema = Yup.object({
 
 const ResetPassword = () => {
   const handleSubmit = (
-    values: PasswordValues,
+    _values: PasswordValues,
     { resetForm }: { resetForm: () => void }
   ) => {
     alert("Password changed successfully");
