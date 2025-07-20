@@ -1,8 +1,6 @@
-import React from "react";
 import { data } from "../assets/data";
-import { ErrorMessage, Field, Form, Formik, type FormikHelpers } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 
 interface PasswordValues {
   newPassword: string;
