@@ -34,12 +34,13 @@ const validationSchema = Yup.object({
     .required("Confirm Password is required"),
 });
 
-const Signup: React.FC = () => {
+const Signup = () => {
   const handleSubmit = (
     values: SignUpValues,
     { resetForm }: { resetForm: () => void }
   ) => {
-    console.log("submitted : ", values);
+    alert("User created successfully");
+    console.log(values);
     resetForm();
   };
 
@@ -47,8 +48,14 @@ const Signup: React.FC = () => {
     <div className="min-h-screen flex justify-center items-center px-4">
       <div className="w-full max-w-md p-6 sm:p-8">
         <div className="flex flex-col items-center mb-6">
-          <img className="w-32 h-16 object-contain" src={data.formLogo} alt="logo" />
-          <h2 className="text-darkBlue font-semibold text-2xl mt-4 self-start">Sign-up</h2>
+          <img
+            className="w-32 h-16 object-contain"
+            src={data.formLogo}
+            alt="logo"
+          />
+          <h2 className="text-darkBlue font-semibold text-2xl mt-4 self-start">
+            Sign-up
+          </h2>
         </div>
 
         <Formik
@@ -56,63 +63,99 @@ const Signup: React.FC = () => {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <Form className="flex flex-col gap-4">            
+          <Form className="flex flex-col gap-4">
+            {/* first name */}
             <div>
-              <label className="text-gray-600 text-sm">First Name</label>
+              <label className="text-gray-700 text-sm sm:text-[14px]">
+                First Name
+              </label>
               <Field
                 name="firstName"
                 className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
                 placeholder="Enter your First Name"
               />
-              <ErrorMessage name="firstName" component="div" className="text-red-600 text-sm mt-1" />
+              <ErrorMessage
+                name="firstName"
+                component="div"
+                className="text-red-600 text-sm mt-1"
+              />
             </div>
 
+            {/* lastname */}
             <div>
-              <label className="text-gray-600 text-sm">Last Name</label>
+              <label className="text-gray-700 text-sm sm:text-[14px]">
+                Last Name
+              </label>
               <Field
                 name="lastName"
                 className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
                 placeholder="Enter your Last Name"
               />
-              <ErrorMessage name="lastName" component="div" className="text-red-600 text-sm mt-1" />
+              <ErrorMessage
+                name="lastName"
+                component="div"
+                className="text-red-600 text-sm mt-1"
+              />
             </div>
 
+            {/* email */}
             <div>
-              <label className="text-gray-600 text-sm">Email</label>
+              <label className="text-gray-700 text-sm sm:text-[14px]">
+                Email
+              </label>
               <Field
                 name="email"
                 type="email"
                 className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
                 placeholder="Enter your Email"
               />
-              <ErrorMessage name="email" component="div" className="text-red-600 text-sm mt-1" />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-red-600 text-sm mt-1"
+              />
             </div>
 
+            {/* password */}
             <div>
-              <label className="text-gray-600 text-sm">Password</label>
+              <label className="text-gray-700 text-sm sm:text-[14px]">
+                Password
+              </label>
               <Field
                 name="password"
                 type="password"
                 className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
                 placeholder="Enter your password"
               />
-              <ErrorMessage name="password" component="div" className="text-red-600 text-sm mt-1" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-600 text-sm mt-1"
+              />
             </div>
 
+            {/* confirm password */}
             <div>
-              <label className="text-gray-600 text-sm">Confirm Password</label>
+              <label className="text-gray-700 text-sm sm:text-[14px]">
+                Confirm Password
+              </label>
               <Field
                 name="confirmPassword"
                 type="password"
                 className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
                 placeholder="Enter your Confirm password"
               />
-              <ErrorMessage name="confirmPassword" component="div" className="text-red-600 text-sm mt-1" />
+              <ErrorMessage
+                name="confirmPassword"
+                component="div"
+                className="text-red-600 text-sm mt-1"
+              />
             </div>
 
+            {/* sign up button */}
             <button
               type="submit"
-              className="w-full bg-darkBlue text-white text-sm py-2 rounded hover:bg-blue-900 transition-all"
+              className="w-full bg-darkBlue cursor-pointer text-white text-sm sm:text-[16px] py-3 rounded-lg hover:bg-blue-900 transition-all"
             >
               Sign-up
             </button>
