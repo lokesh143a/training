@@ -1,6 +1,8 @@
 import { data } from "../assets/data";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Type for form values
 interface SignUpValues {
@@ -38,14 +40,14 @@ const Signup = () => {
     values: SignUpValues,
     { resetForm }: { resetForm: () => void }
   ) => {
-    alert("User created successfully");
+    toast.success("User created successfully!");
     console.log(values);
     resetForm();
   };
 
   return (
     <div className="min-h-screen flex justify-center items-center px-4">
-      <div className="w-full max-w-md p-6 sm:p-8">
+      <div className="w-full max-w-md p-6 sm:p-8 border border-borderColor rounded-lg my-6 md:my-10">
         <div className="flex flex-col items-center mb-6">
           <img
             className="w-32 h-16 object-contain"
@@ -70,7 +72,7 @@ const Signup = () => {
               </label>
               <Field
                 name="firstName"
-                className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
+                className="w-full border px-3 py-3 mt-1 rounded-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
                 placeholder="Enter your First Name"
               />
               <ErrorMessage
@@ -87,7 +89,7 @@ const Signup = () => {
               </label>
               <Field
                 name="lastName"
-                className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
+                className="w-full border px-3 py-3 mt-1 rounded-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
                 placeholder="Enter your Last Name"
               />
               <ErrorMessage
@@ -105,7 +107,7 @@ const Signup = () => {
               <Field
                 name="email"
                 type="email"
-                className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
+                className="w-full border px-3 py-3 mt-1 rounded-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
                 placeholder="Enter your Email"
               />
               <ErrorMessage
@@ -123,7 +125,7 @@ const Signup = () => {
               <Field
                 name="password"
                 type="password"
-                className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
+                className="w-full border px-3 py-3 mt-1 rounded-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
                 placeholder="Enter your password"
               />
               <ErrorMessage
@@ -141,7 +143,7 @@ const Signup = () => {
               <Field
                 name="confirmPassword"
                 type="password"
-                className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
+                className="w-full border px-3 py-3 mt-1 rounded-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
                 placeholder="Enter your Confirm password"
               />
               <ErrorMessage
@@ -154,13 +156,16 @@ const Signup = () => {
             {/* sign up button */}
             <button
               type="submit"
-              className="w-full bg-darkBlue cursor-pointer text-white text-sm sm:text-[16px] py-3 rounded-lg hover:bg-blue-900 transition-all"
+              className="w-full bg-darkBlue cursor-pointer text-white text-sm sm:text-[16px] py-4 rounded-xl hover:bg-blue-900 transition-all"
             >
               Sign-up
             </button>
           </Form>
         </Formik>
       </div>
+
+      {/* Toast container */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

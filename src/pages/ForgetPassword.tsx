@@ -2,6 +2,8 @@ import { data } from "../assets/data";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ForgetValues {
   email: string;
@@ -9,32 +11,30 @@ interface ForgetValues {
 
 const initialValues: ForgetValues = {
   email: "",
-  
 };
 
 const validationSchema = Yup.object({
   email: Yup.string().required("Email is required"),
- 
 });
 
 const ForgetPassword = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = (
     values: ForgetValues,
-    { resetForm }: {resetForm : () => void}
+    { resetForm }: { resetForm: () => void }
   ) => {
-    alert("sent otp");
+    toast.success(" Successful");
     console.log(values);
     resetForm();
-    navigate("/forget-password/otp-verification")
-
+    setTimeout(() => {
+      navigate("/forget-password/otp-verification");
+    }, 2000);
   };
 
   return (
     <div className="min-h-screen flex justify-center items-center px-4">
-      <div className="w-full max-w-md p-6 sm:p-8">
+      <div className="w-full max-w-md p-6 sm:p-8 border border-borderColor rounded-lg my-6 md:my-10">
         <div className="flex flex-col items-center mb-6">
           <img
             className="w-32 h-16 object-contain"
@@ -64,8 +64,8 @@ const ForgetPassword = () => {
               <Field
                 name="email"
                 type="email"
-                className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
-                placeholder="Enter your Email"
+                className="w-full border px-3 py-3 mt-1 rounded-lg placeholder:text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none"
+                placeholder="Enter your email ID"
               />
               <ErrorMessage
                 name="email"
@@ -74,17 +74,18 @@ const ForgetPassword = () => {
               />
             </div>
 
-
             {/* send otp button */}
             <button
               type="submit"
-              className="w-full bg-darkBlue text-white text-sm sm:text-[16px] py-3 rounded-lg cursor-pointer hover:bg-blue-900 transition-all"
+              className="w-full bg-darkBlue text-white text-sm sm:text-[16px] py-4 rounded-xl cursor-pointer hover:bg-blue-900 transition-all"
             >
               Send OTP
             </button>
           </Form>
         </Formik>
       </div>
+      {/* Toast container */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

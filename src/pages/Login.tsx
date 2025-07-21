@@ -2,6 +2,8 @@ import { data } from "../assets/data";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface LoginValues {
   email: string;
@@ -27,13 +29,13 @@ const Login = () => {
     values: LoginValues,
     { resetForm }: { resetForm: () => void }
   ) => {
-    alert("User logged successfully");
+    toast.success("Login Successful")
     console.log(values);
     resetForm();
   };
   return (
     <div className="min-h-screen flex justify-center items-center px-4">
-      <div className="w-full max-w-md p-6 sm:p-8">
+      <div className="w-full max-w-md p-6 sm:p-8 border border-borderColor rounded-lg my-6 md:my-10">
         <div className="flex flex-col items-center mb-6">
           <img
             className="w-32 h-16 object-contain"
@@ -59,8 +61,8 @@ const Login = () => {
               <Field
                 name="email"
                 type="email"
-                className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
-                placeholder="Enter your Email"
+                className="w-full border px-3 py-3 mt-1 rounded-lg placeholder:text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none"
+                placeholder="Enter your email ID"
               />
               <ErrorMessage
                 name="email"
@@ -77,7 +79,7 @@ const Login = () => {
               <Field
                 name="password"
                 type="password"
-                className="w-full border px-3 py-2 mt-1 rounded placeholder:text-gray-400 focus:ring-2 focus:ring-blue-600 outline-none"
+                className="w-full border px-3 py-3 mt-1 rounded-lg placeholder:text-gray-300 focus:ring-2 focus:ring-blue-600 outline-none"
                 placeholder="Enter your password"
               />
               <ErrorMessage
@@ -88,20 +90,26 @@ const Login = () => {
             </div>
 
             {/* forget password */}
-            <p onClick={()=> navigate("/forget-password")} className="text-gray-700 font-semibold text-sm sm:text-[14px] hover:text-darkBlue cursor-pointer">
+            <p
+              onClick={() => navigate("/forget-password")}
+              className="text-gray-700 font-semibold text-sm sm:text-[14px] hover:text-darkBlue cursor-pointer"
+            >
               Forgot Password ?
             </p>
 
             {/* submit button */}
             <button
               type="submit"
-              className="w-full bg-darkBlue text-white text-sm sm:text-[16px] py-3 rounded-lg cursor-pointer hover:bg-blue-900 transition-all"
+              className="w-full bg-darkBlue text-white text-sm sm:text-[16px] py-4 rounded-xl cursor-pointer hover:bg-blue-900 transition-all"
             >
               Submit
             </button>
           </Form>
         </Formik>
       </div>
+
+      {/* Toast container */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

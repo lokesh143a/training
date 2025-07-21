@@ -9,7 +9,8 @@ export default {
        colors: {
         darkBlue: '#13274B', 
         lightGray: '#404041',
-        mutedGray : "#CFD3D4"
+        mutedGray : "#CFD3D4",
+        borderColor : "#F4F4F4"
 
       },
     },
