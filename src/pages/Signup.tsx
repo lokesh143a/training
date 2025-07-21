@@ -3,6 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 // Type for form values
 interface SignUpValues {
@@ -36,6 +37,9 @@ const validationSchema = Yup.object({
 });
 
 const Signup = () => {
+
+  const navigate = useNavigate()
+
   const handleSubmit = (
     values: SignUpValues,
     { resetForm }: { resetForm: () => void }
@@ -43,6 +47,10 @@ const Signup = () => {
     toast.success("User created successfully!");
     console.log(values);
     resetForm();
+
+    setTimeout(()=> {
+        navigate("/login")
+    },2000)
   };
 
   return (
