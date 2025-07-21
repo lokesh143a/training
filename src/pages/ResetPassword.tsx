@@ -36,7 +36,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center px-4">
+    <div className="min-h-screen w-full flex justify-center items-center px-4">
       <div className="w-full max-w-md p-6 sm:p-8 border border-borderColor my-6 md:my-10 rounded-lg">
         <div className="flex flex-col items-center mb-3">
           <img

@@ -26,15 +26,18 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (
-    values: LoginValues,
+    _values: LoginValues,
     { resetForm }: { resetForm: () => void }
   ) => {
     toast.success("Login Successful")
-    console.log(values);
     resetForm();
+
+    setTimeout(()=> {
+        navigate("/")
+    },2000)
   };
   return (
-    <div className="min-h-screen flex justify-center items-center px-4">
+    <div className="min-h-screen w-full flex justify-center items-center px-4">
       <div className="w-full max-w-md p-6 sm:p-8 border border-borderColor rounded-lg my-6 md:my-10">
         <div className="flex flex-col items-center mb-6">
           <img
