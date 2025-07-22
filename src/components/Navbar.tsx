@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
   const shouldShowIcons: boolean = !hideNavbarIcons.includes(location.pathname);
 
   return (
-    <div className="w-full h-[80px] bg-darkBlue flex justify-between items-center pl-2 md:pl-[57px] fixed top-0">
+    <div className="w-full h-[80px] bg-darkBlue flex justify-between items-center pl-2 md:pl-[57px] fixed top-0 z-30">
       <img className="w-15 h-10 md:w-28 md:h-14" src={data.logo} alt="logo" />
 
       {/* icons container */}

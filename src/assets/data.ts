@@ -8,6 +8,11 @@ import notificationIcon from "./notificationIcon.png"
 import messageIcon from "./messageIcon.png"
 import profileImg from "./profileImg.png"
 import dropDownIcon from "./arrow-down.png"
+import adelaideImg from "./adelaideImg.png"
+import footballVictoriaImg from "./footballVictoriaImg.png"
+import stingraysImg from "./stingraysImg.png"
+import group from "./Group.png"
+import videoIcon from "./tabler_video-filled.png"
 
 export const data = {
     logo,
@@ -19,5 +24,10 @@ export const data = {
     notificationIcon,
     messageIcon,
     profileImg,
-    dropDownIcon
+    dropDownIcon,
+    adelaideImg,
+    footballVictoriaImg,
+    stingraysImg,
+    group,
+    videoIcon
 }

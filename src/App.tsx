@@ -34,7 +34,7 @@ const App: React.FC = () => {
       <div className="flex mt-[80px] ">
         {shouldShowSidebar && <Sidebar />}
 
-        <div className={shouldShowSidebar ? "ml-[221px] flex-1" : "flex-1"}>
+        <div className={shouldShowSidebar ? "ml-[80px] md:ml-[221px] flex-1" : "flex-1"}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/coach-management" element={<CoachManagement />} />

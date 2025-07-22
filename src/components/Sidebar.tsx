@@ -16,7 +16,7 @@ const Sidebar = () => {
           key={index}
           className={({ isActive }) =>
             `flex items-center md:gap-2 justify-center md:justify-start w-full h-[46px] rounded-lg px-2 cursor-pointer transition-all ${
-              isActive ? "border-[0.77px] border-white bg-blue-900" : "text-white hover:border-[0.77px] hover:border-white"
+              isActive ? "border-[0.77px] border-white bg-[#FFFFFF1A]" : "text-white hover:border-[0.77px] hover:border-white"
             }`
           }
           // className="flex items-center md:gap-2 justify-center md:justify-start hover:border-[0.77px] hover:border-white w-full h-[46px] rounded-lg px-2 cursor-pointer transition-none"
