@@ -6,11 +6,12 @@ import Login from "./pages/Login";
 import ForgetPassword from "./pages/ForgetPassword";
 import OtpVerification from "./pages/OtpVerification";
 import ResetPassword from "./pages/ResetPassword";
+// import HiFiClubDashboard from "./pages/HiFiClubDashboard";
 import Dashboard from "./pages/Dashboard";
 import Sidebar from "./components/Sidebar";
-import CoachManagement from "./pages/CoachManagement";
-import TeamManagement from "./pages/TeamManagement";
-import PlayerManagement from "./pages/PlayerManagement";
+
+import Notfound from "./components/Notfound";
+import League from "./pages/League";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -37,9 +38,7 @@ const App: React.FC = () => {
         <div className={shouldShowSidebar ? "ml-[80px] md:ml-[221px] flex-1" : "flex-1"}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/coach-management" element={<CoachManagement />} />
-            <Route path="/team-management" element={<TeamManagement />} />
-            <Route path="/player-management" element={<PlayerManagement />} />
+            <Route path="/league" element={<League/>} />
 
             {/* signup and login routes */}
             <Route path="/sign-up" element={<Signup />} />
@@ -50,6 +49,9 @@ const App: React.FC = () => {
               <Route path="otp-verification" element={<OtpVerification />} />
               <Route path="reset-password" element={<ResetPassword />} />
             </Route>
+
+            {/* not found route */}
+            <Route path="*" element={<Notfound/>} />
           </Routes>
         </div>
       </div>

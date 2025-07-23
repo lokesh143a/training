@@ -92,8 +92,9 @@ const MatchCards = () => {
             <h3 className="text-[13px] md:text-[18px] font-semibold text-[#13274B]">
               GOALS
             </h3>
-            <p className="md:w-[83px] md:h-[23px] rounded-l md:rounded-xl font-semibold text-[8px] md:text-[10px] bg-green-100 text-[#05A45F] flex justify-center items-center">
-              Above Avg
+            <p className="md:w-[83px] md:h-[23px] rounded-lg md:rounded-xl font-semibold text-[8px] md:text-[10px] bg-green-100 text-[#05A45F] flex justify-center items-center gap-0.5 sm:gap-2 px-1">
+              Above Avg 
+              <img className="w-[4px] sm:w-[6px]"  src={data.greenArrow} alt="" />
             </p>
           </div>
           </div>
@@ -111,8 +112,9 @@ const MatchCards = () => {
             <h3 className="text-[13px] md:text-[18px] font-semibold text-[#13274B]">
               ASSISTS
             </h3>
-            <p className="md:w-[83px] md:h-[23px] rounded-l md:rounded-xl font-semibold text-[8px] md:text-[10px] bg-red-100 text-[#D20000] flex justify-center items-center">
-              Above Avg
+            <p className="md:w-[83px] md:h-[23px] rounded-lg md:rounded-xl font-semibold text-[8px] md:text-[10px] bg-red-100 text-[#D20000] flex justify-center items-center gap-0.5 sm:gap-2 px-1">
+              Below Avg
+              <img className="w-[4px] sm:w-[6px]"  src={data.redArrow} alt="" />
             </p>
           </div>
           </div>
@@ -130,8 +132,9 @@ const MatchCards = () => {
             <h3 className="text-[13px] md:text-[18px] font-semibold text-[#13274B]">
               TACKLES
             </h3>
-            <p className="md:w-[83px] md:h-[23px] rounded-l md:rounded-xl font-semibold text-[8px] md:text-[10px] bg-green-100 text-[#05A45F] flex justify-center items-center">
+            <p className="md:w-[83px] md:h-[23px] rounded-lg md:rounded-xl font-semibold text-[8px] md:text-[10px] bg-green-100 text-[#05A45F] flex justify-center items-center gap-0.5 sm:gap-2 px-1">
               Above Avg
+              <img className="w-[4px] sm:w-[6px]"  src={data.greenArrow} alt="" />
             </p>
           </div>
           </div>
@@ -149,8 +152,9 @@ const MatchCards = () => {
             <h3 className="text-[13px] md:text-[18px] font-semibold text-[#13274B]">
               PASSES
             </h3>
-            <p className="md:w-[83px] md:h-[23px] rounded-l md:rounded-xl font-semibold text-[8px] md:text-[10px] bg-green-100 text-[#05A45F] flex justify-center items-center">
+            <p className="md:w-[83px] md:h-[23px] rounded-lg md:rounded-xl font-semibold text-[8px] md:text-[10px] bg-green-100 text-[#05A45F] flex justify-center items-center gap-0.5 sm:gap-2 px-1">
               Above Avg
+              <img className="w-[4px] sm:w-[6px]"  src={data.greenArrow} alt="" />
             </p>
           </div>
           </div>

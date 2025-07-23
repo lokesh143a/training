@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
               name=""
               id=""
             >
-              <option value="Team">Team</option>
+              <option value="Team">Soccer</option>
             </select>
             {/* Custom dropdown arrow */}
             <img
