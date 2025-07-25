@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { data } from "../assets/data";
+import Button from "../components/Button/Button";
+import Table from "../components/Table/Table";
 
 type LeagueData = {
   id: string | number;
@@ -32,6 +34,25 @@ const League = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditLeaguePopUp, setIsEditLeaguePopUp] = useState(false);
+
+  // headers data
+  const tableHeaders = [
+    "ID",
+    "LEAGUE NAME",
+    "COUNTRY",
+    "NO. OF COMPETITIONS",
+    "STATUS",
+    "ACTIONS",
+  ];
+
+  // tablekeys
+  const leagueKeys = [
+    "id",
+    "leagueName",
+    "country",
+    "numberOfCompetitions",
+    "status",
+  ];
 
   // filtered data
   const filteredData = originalLeagueData.filter((item) => {
@@ -124,85 +145,85 @@ const League = () => {
     );
   };
 
-  const leagueTable = () => {
-    return (
-      <div className="w-full xl:w-[1171px] border border-[#A8A8A852] rounded-tl-lg rounded-tr-lg ">
-        <table className="w-full xl:w-[1171px] ">
-          <thead className="bg-[#E9F1FF] ">
-            <tr>
-              <th className="border-b border-[#A8A8A852] text-left px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
-                ID
-              </th>
-              <th className="border-b border-[#A8A8A852] text-left  px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
-                LEAGUE NAME
-              </th>
-              <th className="border-b border-[#A8A8A852] text-left px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
-                COUNTRY
-              </th>
-              <th className=" border-b border-[#A8A8A852] text-left px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
-                NO. OF COMPETITIONS
-              </th>
-              <th className="border-b border-[#A8A8A852]text-left px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
-                STATUS
-              </th>
-              <th className="border-b border-[#A8A8A852] text-left px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
-                ACTIONS
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map((item, index) => (
-                <tr
-                  key={index}
-                  className="h-[83.84px] border-b border-[#A8A8A852] "
-                >
-                  <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px] ">
-                    {item.id}
-                  </td>
-                  <td className="px-[29.48px] py-[9.21px] text-[13px] xl:text-[20px] font-bold">
-                    {item.leagueName}
-                  </td>
-                  <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px] ">
-                    {item.country}
-                  </td>
-                  <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px]">
-                    {item.numberOfCompetitions}
-                  </td>
-                  <td className="px-[29.48px] py-[9.21px]">
-                    <span className="inline-block text-[8px] md:text-[14px] rounded-full text-[#22C55E] bg-[#21FF041A] w-[73.3px] h-[25px] leading-[25px] text-center font-semibold">
-                      {item.status}
-                    </span>
-                  </td>
-                  <td className="px-[29.48px] py-[9.21px]">
-                    <div className="flex items-center gap-2 md:gap-4">
-                      <img
-                        onClick={() => setIsEditLeaguePopUp(true)}
-                        className="md:w-[16.67px] md:h-[18.32px] cursor-pointer"
-                        src={data.editIcon}
-                        alt=""
-                      />
-                      <img
-                        className="md:w-[16.5px] md:h-[15.13px] cursor-pointer"
-                        src={data.deleteIcon}
-                        alt=""
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={6} className="text-center py-6 text-gray-500">
-                  No leagues found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    );
-  };
+  // const leagueTable = () => {
+  //   return (
+  //     <div className="w-full xl:w-[1171px] border border-[#A8A8A852] rounded-tl-lg rounded-tr-lg ">
+  //       <table className="w-full xl:w-[1171px] ">
+  //         <thead className="bg-[#E9F1FF] ">
+  //           <tr>
+  //             <th className="border-b border-[#A8A8A852] text-left px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
+  //               ID
+  //             </th>
+  //             <th className="border-b border-[#A8A8A852] text-left  px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
+  //               LEAGUE NAME
+  //             </th>
+  //             <th className="border-b border-[#A8A8A852] text-left px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
+  //               COUNTRY
+  //             </th>
+  //             <th className=" border-b border-[#A8A8A852] text-left px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
+  //               NO. OF COMPETITIONS
+  //             </th>
+  //             <th className="border-b border-[#A8A8A852]text-left px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
+  //               STATUS
+  //             </th>
+  //             <th className="border-b border-[#A8A8A852] text-left px-2 py-1 md:px-[29.48px] md:py-[9.21px] text-[8px] md:text-[14.74px] text-[#646464] font-bold">
+  //               ACTIONS
+  //             </th>
+  //           </tr>
+  //         </thead>
+  //         <tbody>
+  //           {filteredData.length > 0 ? (
+  //             filteredData.map((item, index) => (
+  //               <tr
+  //                 key={index}
+  //                 className="h-[83.84px] border-b border-[#A8A8A852] "
+  //               >
+  //                 <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px] ">
+  //                   {item.id}
+  //                 </td>
+  //                 <td className="px-[29.48px] py-[9.21px] text-[13px] xl:text-[20px] font-bold">
+  //                   {item.leagueName}
+  //                 </td>
+  //                 <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px] ">
+  //                   {item.country}
+  //                 </td>
+  //                 <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px]">
+  //                   {item.numberOfCompetitions}
+  //                 </td>
+  //                 <td className="px-[29.48px] py-[9.21px]">
+  //                   <span className="inline-block text-[8px] md:text-[14px] rounded-full text-[#22C55E] bg-[#21FF041A] w-[73.3px] h-[25px] leading-[25px] text-center font-semibold">
+  //                     {item.status}
+  //                   </span>
+  //                 </td>
+  //                 <td className="px-[29.48px] py-[9.21px]">
+  //                   <div className="flex items-center gap-2 md:gap-4">
+  //                     <img
+  //                       onClick={() => setIsEditLeaguePopUp(true)}
+  //                       className="md:w-[16.67px] md:h-[18.32px] cursor-pointer"
+  //                       src={data.editIcon}
+  //                       alt=""
+  //                     />
+  //                     <img
+  //                       className="md:w-[16.5px] md:h-[15.13px] cursor-pointer"
+  //                       src={data.deleteIcon}
+  //                       alt=""
+  //                     />
+  //                   </div>
+  //                 </td>
+  //               </tr>
+  //             ))
+  //           ) : (
+  //             <tr>
+  //               <td colSpan={6} className="text-center py-6 text-gray-500">
+  //                 No leagues found
+  //               </td>
+  //             </tr>
+  //           )}
+  //         </tbody>
+  //       </table>
+  //     </div>
+  //   );
+  // };
 
   const modalPopUp = () => {
     return (
@@ -270,12 +291,24 @@ const League = () => {
           </div>
 
           {/* add league button */}
-          <button
+          <Button
+            onClick={() => alert("clicked add leage btn")}
+            bgColor="#EE3243"
+            width="163px"
+            height="44px"
+            padding="11px 34px"
+            color="#F5F5F5"
+            borderRadius="5.59px"
+            className="self-end text-[#F5F5F5] bg-[#EE3243] w-full md:w-[163px] h-[30px] md:h-[44px] text-[12px] md:text-[18px] md:px-[34px] md:py-[11px] rounded-[5.59px] "
+          >
+            Add League
+          </Button>
+          {/* <button
             type="submit"
             className="self-end text-[#F5F5F5] bg-[#EE3243] w-full md:w-[163px] h-[30px] md:h-[44px] text-[12px] md:text-[18px] md:px-[34px] md:py-[11px] rounded-[5.59px] "
           >
             Add League
-          </button>
+          </button> */}
         </form>
       </div>
     );
@@ -331,12 +364,22 @@ const League = () => {
           </div>
 
           {/* add league button */}
-          <button
-            type="submit"
-            className="self-end text-[#F5F5F5] bg-[#EE3243] w-full md:w-[163px] h-[30px] md:h-[44px] text-[12px] md:text-[18px] md:px-[34px] md:py-[11px] rounded-[5.59px] "
+          <Button
+            onClick={() => alert("clicked edit league button")}
+            color="#F5F5F5"
+            bgColor="#EE3243"
+            borderRadius="5.59px"
+            className="self-end w-full md:w-[189px] h-[30px] md:h-[44px] text-[12px] md:text-[18px] px-[12px] md:px-[34px] py-[6px] md:py-[11px]"
           >
             Update League
-          </button>
+          </Button>
+
+          {/* <button
+            type="submit"
+            className="self-end text-[#F5F5F5] bg-[#EE3243] w-full md:w-[189px] h-[30px] md:h-[44px] text-[12px] md:text-[18px] md:px-[34px] md:py-[11px] rounded-[5.59px] "
+          >
+            Update League
+          </button> */}
         </form>
       </div>
     );
@@ -355,15 +398,39 @@ const League = () => {
             League Management
           </h1>
           <div className="flex gap-2">
-            <button className="font-medium text-[#A8A8A8] text-sm md:text-[16.28px] border border-[#A8A8A8] w-20 md:w-[124px] h-10 md:h-[43px] p-2 md:p-[10.18px] rounded-md md:rounded-[8.14px]">
+            {/* <button className="font-medium text-[#A8A8A8] text-sm md:text-[16.28px] border border-[#A8A8A8] w-20 md:w-[124px] h-10 md:h-[43px] p-2 md:p-[10.18px] rounded-md md:rounded-[8.14px]">
               Export
-            </button>
-            <button
+            </button> */}
+            {/* reuasable export button */}
+            <Button
+              className="font-medium text-[#A8A8A8] text-sm md:text-[16.28px] border border-[#A8A8A8] w-20 md:w-[124px] h-10 md:h-[43px] p-2 md:p-[10.18px] rounded-md md:rounded-[8.14px]"
+              borderColor="#A8A8A8"
+              color="#A8A8A8"
+              padding="10.18px 10.18px"
+              height="43px"
+              width="124px"
+            >
+              Export
+            </Button>
+            {/* <button
               onClick={() => setIsModalOpen(true)}
               className="font-medium text-[#FFFFFF] text-[16.28px] bg-[#EF4B41] w-25 md:w-[194px] h-10 md:h-[43px] p-2 md:p-[10.18px] rounded-md md:rounded-[8.14px] "
             >
               Create New League
-            </button>
+            </button> */}
+            {/* reuable create new league button */}
+            <Button
+              onClick={() => setIsModalOpen(true)}
+              className="font-medium text-[#FFFFFF] text-[16.28px] bg-[#EF4B41] w-25 md:w-[194px] h-10 md:h-[43px] p-2 md:p-[10.18px] rounded-md md:rounded-[8.14px] "
+              color="#ffffff"
+              bgColor="#EF4B41"
+              width="194px"
+              height="43px"
+              borderRadius="8.14px"
+              borderColor="none"
+            >
+              Create New League
+            </Button>
           </div>
         </div>
 
@@ -371,7 +438,16 @@ const League = () => {
         {filterSection()}
 
         {/* league table */}
-        {leagueTable()}
+        {/* {leagueTable()} */}
+
+        <Table
+          filteredData={filteredData}
+          keyNames={leagueKeys}
+          tableHeaders={tableHeaders}
+          editIcon={data.editIcon}
+          deleteIcon={data.deleteIcon}
+          onEdit={setIsEditLeaguePopUp}
+        />
       </div>
       {isModalOpen && modalPopUp()}
       {isEditLeaguePopUp && editLeaguePopUp()}

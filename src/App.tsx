@@ -35,10 +35,14 @@ const App: React.FC = () => {
       <div className="flex mt-[80px] ">
         {shouldShowSidebar && <Sidebar />}
 
-        <div className={shouldShowSidebar ? "ml-[80px] md:ml-[221px] flex-1" : "flex-1"}>
+        <div
+          className={
+            shouldShowSidebar ? "ml-[80px] md:ml-[221px] flex-1" : "flex-1"
+          }
+        >
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/league" element={<League/>} />
+            <Route path="/league" element={<League />} />
 
             {/* signup and login routes */}
             <Route path="/sign-up" element={<Signup />} />
@@ -51,7 +55,7 @@ const App: React.FC = () => {
             </Route>
 
             {/* not found route */}
-            <Route path="*" element={<Notfound/>} />
+            <Route path="*" element={<Notfound />} />
           </Routes>
         </div>
       </div>

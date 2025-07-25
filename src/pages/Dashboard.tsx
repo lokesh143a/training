@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { data } from "../assets/data";
+import Table from "../components/Table/Table";
 
 type SummaryItem = {
   title: string;
@@ -46,6 +47,34 @@ const summaryData: SummeryType[] = [
     subtext: "+5.8 from previous week",
   },
 ];
+
+const tableHeaders: string[] = [
+  "ID",
+  "COMPETITION NAME",
+  "TEAM",
+  "GRADE",
+  "STATUS",
+  "MANAGE",
+];
+
+const tableData = [
+  {
+    id: "1",
+    competitionName: "Alberta Australian Football League",
+    team: 20,
+    grade: "Under 18",
+    status: "Active"
+  },
+  {
+    id: "2",
+    competitionName: "Alberta Australian Football League",
+    team: 30,
+    grade: "Under 18",
+    status: "Active"
+  },
+];
+
+const competitionKeys = ["id", "competitionName", "team", "grade", "status"];
 
 const Dashboard = () => {
   const [isActive, setIsActive] = useState<string>("summary");
@@ -114,96 +143,96 @@ const Dashboard = () => {
     );
   };
 
-  const list = () => {
-    return (
-      <div className="w-full xl:w-[1171px] border border-[#A8A8A852] rounded-tl-lg rounded-tr-lg ">
-        <table className="w-full xl:w-[1171px] ">
-          <thead className="bg-[#E9F1FF] ">
-            <tr >
-              <th className="border-b border-[#A8A8A852] text-left px-[29.48px] py-[9.21px] text-[14px] md:text-[14.74px] text-[#646464] font-bold">
-                COMPETITION NAME
-              </th>
-              <th className="border-b border-[#A8A8A852] text-left md:px-[29.48px] md:py-[9.21px] text-[14px] md:text-[14.74px] text-[#646464] font-bold">
-                TEAM
-              </th>
-              <th className=" border-b border-[#A8A8A852] text-left md:px-[29.48px] md:py-[9.21px] text-[14px] md:text-[14.74px] text-[#646464] font-bold">
-                GRADE
-              </th>
-              <th className="border-b border-[#A8A8A852]text-left md:px-[29.48px] md:py-[9.21px] text-[14px] md:text-[14.74px] text-[#646464] font-bold">
-                STATUS
-              </th>
-              <th className="border-b border-[#A8A8A852] text-left md:px-[29.48px] md:py-[9.21px] text-[14px] md:text-[14.74px] text-[#646464] font-bold">
-                MANAGE
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="h-[83.84px] border-b border-[#A8A8A852] ">
-              <td className="px-[29.48px] py-[9.21px] text-[13px] xl:text-[20px] font-bold">
-                Alberta Australian Football League
-              </td>
-              <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px] ">
-                20
-              </td>
-              <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px]">
-                Under 18
-              </td>
-              <td className="px-[29.48px] py-[9.21px]">
-                <span className="inline-block text-[8px] md:text-[14px] rounded-full text-[#22C55E] bg-[#21FF041A] w-[73.3px] h-[25px] leading-[25px] text-center font-semibold">
-                  Active
-                </span>
-              </td>
-              <td className="px-[29.48px] py-[9.21px]">
-                <div className="flex items-center gap-2 md:gap-4">
-                  <img
-                    className="md:w-[16.67px] md:h-[18.32px] cursor-pointer"
-                    src={data.editIcon}
-                    alt=""
-                  />
-                  <img
-                    className="md:w-[16.5px] md:h-[15.13px] cursor-pointer"
-                    src={data.deleteIcon}
-                    alt=""
-                  />
-                </div>
-              </td>
-            </tr>
+  // const list = () => {
+  //   return (
+  //     <div className="w-full xl:w-[1171px] border border-[#A8A8A852] rounded-tl-lg rounded-tr-lg ">
+  //       <table className="w-full xl:w-[1171px] ">
+  //         <thead className="bg-[#E9F1FF] ">
+  //           <tr>
+  //             <th className="border-b border-[#A8A8A852] text-left px-[29.48px] py-[9.21px] text-[14px] md:text-[14.74px] text-[#646464] font-bold">
+  //               COMPETITION NAME
+  //             </th>
+  //             <th className="border-b border-[#A8A8A852] text-left md:px-[29.48px] md:py-[9.21px] text-[14px] md:text-[14.74px] text-[#646464] font-bold">
+  //               TEAM
+  //             </th>
+  //             <th className=" border-b border-[#A8A8A852] text-left md:px-[29.48px] md:py-[9.21px] text-[14px] md:text-[14.74px] text-[#646464] font-bold">
+  //               GRADE
+  //             </th>
+  //             <th className="border-b border-[#A8A8A852]text-left md:px-[29.48px] md:py-[9.21px] text-[14px] md:text-[14.74px] text-[#646464] font-bold">
+  //               STATUS
+  //             </th>
+  //             <th className="border-b border-[#A8A8A852] text-left md:px-[29.48px] md:py-[9.21px] text-[14px] md:text-[14.74px] text-[#646464] font-bold">
+  //               MANAGE
+  //             </th>
+  //           </tr>
+  //         </thead>
+  //         <tbody>
+  //           <tr className="h-[83.84px] border-b border-[#A8A8A852] ">
+  //             <td className="px-[29.48px] py-[9.21px] text-[13px] xl:text-[20px] font-bold">
+  //               Alberta Australian Football League
+  //             </td>
+  //             <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px] ">
+  //               20
+  //             </td>
+  //             <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px]">
+  //               Under 18
+  //             </td>
+  //             <td className="px-[29.48px] py-[9.21px]">
+  //               <span className="inline-block text-[8px] md:text-[14px] rounded-full text-[#22C55E] bg-[#21FF041A] w-[73.3px] h-[25px] leading-[25px] text-center font-semibold">
+  //                 Active
+  //               </span>
+  //             </td>
+  //             <td className="px-[29.48px] py-[9.21px]">
+  //               <div className="flex items-center gap-2 md:gap-4">
+  //                 <img
+  //                   className="md:w-[16.67px] md:h-[18.32px] cursor-pointer"
+  //                   src={data.editIcon}
+  //                   alt=""
+  //                 />
+  //                 <img
+  //                   className="md:w-[16.5px] md:h-[15.13px] cursor-pointer"
+  //                   src={data.deleteIcon}
+  //                   alt=""
+  //                 />
+  //               </div>
+  //             </td>
+  //           </tr>
 
-            <tr className="h-[83.84px] border-b border-[#A8A8A852] ">
-              <td className="px-[29.48px] py-[9.21px] text-[13px] xl:text-[20px] font-bold">
-                Alberta Australian Football League
-              </td>
-              <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px] ">
-                20
-              </td>
-              <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px]">
-                Under 18
-              </td>
-              <td className="px-[29.48px] py-[9.21px]">
-                <span className="inline-block text-[8px] md:text-[14px] rounded-full text-[#22C55E] bg-[#21FF041A] w-[73.3px] h-[25px] leading-[25px] text-center font-semibold">
-                  Active
-                </span>
-              </td>
-              <td className="px-[29.48px] py-[9.21px]">
-                <div className="flex items-center gap-2 md:gap-4">
-                  <img
-                    className="md:w-[16.67px] md:h-[18.32px] cursor-pointer"
-                    src={data.editIcon}
-                    alt=""
-                  />
-                  <img
-                    className="md:w-[16.5px] md:h-[15.13px] cursor-pointer"
-                    src={data.deleteIcon}
-                    alt=""
-                  />
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    );
-  };
+  //           <tr className="h-[83.84px] border-b border-[#A8A8A852] ">
+  //             <td className="px-[29.48px] py-[9.21px] text-[13px] xl:text-[20px] font-bold">
+  //               Alberta Australian Football League
+  //             </td>
+  //             <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px] ">
+  //               20
+  //             </td>
+  //             <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px]">
+  //               Under 18
+  //             </td>
+  //             <td className="px-[29.48px] py-[9.21px]">
+  //               <span className="inline-block text-[8px] md:text-[14px] rounded-full text-[#22C55E] bg-[#21FF041A] w-[73.3px] h-[25px] leading-[25px] text-center font-semibold">
+  //                 Active
+  //               </span>
+  //             </td>
+  //             <td className="px-[29.48px] py-[9.21px]">
+  //               <div className="flex items-center gap-2 md:gap-4">
+  //                 <img
+  //                   className="md:w-[16.67px] md:h-[18.32px] cursor-pointer"
+  //                   src={data.editIcon}
+  //                   alt=""
+  //                 />
+  //                 <img
+  //                   className="md:w-[16.5px] md:h-[15.13px] cursor-pointer"
+  //                   src={data.deleteIcon}
+  //                   alt=""
+  //                 />
+  //               </div>
+  //             </td>
+  //           </tr>
+  //         </tbody>
+  //       </table>
+  //     </div>
+  //   );
+  // };
 
   return (
     <div className="w-auto h-screen flex flex-col px-3 pb-6 pt-2 sm:px-6 sm:py-4 gap-4 md:gap-8 ">
@@ -238,7 +267,18 @@ const Dashboard = () => {
       </div>
 
       {/* bottom table and list section */}
-      {isActive === "summary" ? summary() : list()}
+      {isActive === "summary" ? (
+        summary()
+      ) : (
+        //  list()
+        <Table
+          tableHeaders={tableHeaders}
+          keyNames={competitionKeys}
+          filteredData={tableData}
+          editIcon={data.editIcon}
+          deleteIcon={data.deleteIcon}
+        />
+      )}
     </div>
   );
 };
