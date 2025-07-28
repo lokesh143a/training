@@ -12,6 +12,9 @@ import Sidebar from "./components/Sidebar";
 
 import Notfound from "./components/Notfound";
 import League from "./pages/League";
+import Competitions from "./pages/Competitions";
+import Teams from "./pages/Teams";
+import Fixtures from "./pages/Fixtures";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -37,12 +40,15 @@ const App: React.FC = () => {
 
         <div
           className={
-            shouldShowSidebar ? "ml-[80px] md:ml-[221px] flex-1" : "flex-1"
+            shouldShowSidebar ? "ml-[80px] md:ml-[221px] flex-1 " : "flex-1"
           }
         >
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/league" element={<League />} />
+            <Route path="/competitions" element={<Competitions />} />
+            <Route path="/teams" element={<Teams />} />
+            <Route path="/fixtures" element={<Fixtures />} />
 
             {/* signup and login routes */}
             <Route path="/sign-up" element={<Signup />} />

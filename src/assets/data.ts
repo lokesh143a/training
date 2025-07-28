@@ -46,6 +46,10 @@ import editIcon from "./editIcon.png"
 import deleteIcon from "./deleteIcon.png"
 import searchIcon from "./prime_search.png"
 import downArrow from "./selectArrow.png"
+import eyeIcon from "./eyeIcon.png"
+
+// teams
+import teamsCrossIcon from "./teamsCrossIcon.png"
 
 export const data = {
   logo,
@@ -84,4 +88,10 @@ export const data = {
   deleteIcon,
   searchIcon,
   downArrow,
+   eyeIcon
 };
+
+export const teamsData = {
+    teamsCrossIcon,
+   
+}

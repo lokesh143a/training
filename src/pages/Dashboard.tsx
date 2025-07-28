@@ -63,18 +63,50 @@ const tableData = [
     competitionName: "Alberta Australian Football League",
     team: 20,
     grade: "Under 18",
-    status: "Active"
+    status: "Active",
+   
   },
   {
     id: "2",
     competitionName: "Alberta Australian Football League",
     team: 30,
     grade: "Under 18",
-    status: "Active"
+    status: "Active",
+   
   },
 ];
 
-const competitionKeys = ["id", "competitionName", "team", "grade", "status"];
+const competitionKeys = ["id", "competitionName", "team", "grade", "status","manage"];
+
+const transformedTableData: Array<Record<string, React.ReactNode>> = tableData.map((item) => ({
+  ...item,
+  status: (
+    <span
+      className={`inline-block text-[8px] md:text-[14px] rounded-full ${
+        item.status === "Active"
+          ? "text-[#22C55E] bg-[#21FF041A]"
+          : "text-red-500 bg-red-50"
+      } w-[73.3px] h-[25px] leading-[25px] text-center font-semibold`}
+    >
+      {item.status}
+    </span>
+  ),
+  manage: (
+    <div className="flex items-center gap-2 md:gap-4">
+      <img
+        className="md:w-[16.67px] md:h-[18.32px] cursor-pointer"
+        src={data.editIcon}
+        alt="Edit"
+      />
+      <img
+        className="md:w-[16.5px] md:h-[15.13px] cursor-pointer"
+        src={data.deleteIcon}
+        alt="Delete"
+      />
+    </div>
+  ),
+}));
+
 
 const Dashboard = () => {
   const [isActive, setIsActive] = useState<string>("summary");
@@ -274,9 +306,8 @@ const Dashboard = () => {
         <Table
           tableHeaders={tableHeaders}
           keyNames={competitionKeys}
-          filteredData={tableData}
-          editIcon={data.editIcon}
-          deleteIcon={data.deleteIcon}
+          filteredData={transformedTableData}
+         
         />
       )}
     </div>

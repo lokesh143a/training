@@ -2,24 +2,18 @@ import React from "react";
 
 type TableProps = {
   tableHeaders: string[];
-  keyNames : string[];
-  filteredData: Array<Record<string, string | number>>;
-  editIcon: string;
-  deleteIcon: string;
-  onEdit?: React.Dispatch<React.SetStateAction<boolean>>;
-  onDelete?: (item: Record<string, string | number>) => void;
+  keyNames: string[];
+  filteredData: Array<Record<string, React.ReactNode>>;
+ 
 };
 
 const Table: React.FC<TableProps> = ({
   tableHeaders,
   keyNames,
   filteredData,
-  editIcon,
-  deleteIcon,
-  onEdit,
 }) => {
   return (
-    <div className="w-full xl:w-[1171px] border border-[#A8A8A852] rounded-tl-lg rounded-tr-lg ">
+    <div className="w-full xl:w-[1171px] border border-[#A8A8A852] rounded-tl-lg rounded-tr-lg overflow-hidden ">
       <table className="w-full xl:w-[1171px] ">
         <thead className="bg-[#E9F1FF] ">
           <tr>
@@ -58,13 +52,28 @@ const Table: React.FC<TableProps> = ({
                 key={index}
                 className="h-[83.84px] border-b border-[#A8A8A852] "
               >
-                {
-                  keyNames.map((key , index) =>(
-                    <td key={index} className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px] ">
-                  {item[key]}
-                </td>
-                  ))
-                }
+                {keyNames.map((key, index) =>
+                  key === "status" ? (
+                    <td key={index} className="px-[29.48px] py-[9.21px]">
+                      <span
+                        className={`inline-block text-[8px] md:text-[14px] rounded-full ${
+                          item.status === "Active" || item.status === "Complete"
+                            ? "text-[#22C55E] bg-[#21FF041A]"
+                            : "text-[#A8A8A8] bg-[#E5E5E5]"
+                        }  w-[73.3px] h-[25px] leading-[25px] text-center font-semibold`}
+                      >
+                        {item.status}
+                      </span>
+                    </td>
+                  ) : (
+                    <td
+                      key={index}
+                      className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px] "
+                    >
+                      {item[key]}
+                    </td>
+                  )
+                )}
                 {/* <td className="px-[29.48px] py-[9.21px] font-medium text-[#4D4D4D] text-[12px] xl:text-[18px] ">
                   {item.id}
                 </td>
@@ -82,7 +91,7 @@ const Table: React.FC<TableProps> = ({
                     {item.status}
                   </span>
                 </td> */}
-                <td className="px-[29.48px] py-[9.21px]">
+                {/* <td className="px-[29.48px] py-[9.21px]">
                   <div className="flex items-center gap-2 md:gap-4">
                     <img
                       onClick={() => onEdit?.(true)}
@@ -96,7 +105,7 @@ const Table: React.FC<TableProps> = ({
                       alt="Delete"
                     />
                   </div>
-                </td>
+                </td> */}
               </tr>
             ))
           ) : (
