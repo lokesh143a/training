@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useConfigStore } from "../store/configStore";
+
+const baseUrl = useConfigStore.getState().baseUrl;
+
 const initialValues: { otp: string } = { otp: "" };
 
 const validationSchema = Yup.object({
@@ -14,19 +20,71 @@ const validationSchema = Yup.object({
 const OtpVerification = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: { otp: string },
     { resetForm }: { resetForm: () => void }
   ) => {
-    console.log(values);
-    toast.success("OTP verified successfully");
-    resetForm();
-    setTimeout(() => {
-      navigate("/forget-password/reset-password");
-    }, 2000);
+    const email = Cookies.get("email");
+
+    if (!email) {
+      toast.error("Email not found. Please go back and request OTP again.");
+      return;
+    }
+
+    try {
+      const payload = {
+        email,
+        otp: values.otp,
+      };
+
+      const response = await axios.post(
+        `${baseUrl}/training/auth/verify-otp`,
+        payload
+      );
+
+      if (response.status === 200) {
+        toast.success("OTP verified successfully");
+        resetForm();
+        setTimeout(() => {
+          navigate("/forget-password/reset-password");
+        }, 2000);
+      } else {
+        toast.error(response.data.message || "OTP verification failed");
+      }
+    } catch (error: any) {
+      console.error("OTP verification error:", error);
+      toast.error(error.response?.data?.message || "OTP verification failed");
+    }
   };
 
-  const resendCode = (): void => {};
+  const resendCode = async () => {
+    const email = Cookies.get("email");
+
+    if (!email) {
+      toast.error(
+        "Email not found. Please go back and enter your email again."
+      );
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${baseUrl}/training/auth/resend-otp`, {
+        email,
+      });
+
+      if (response.status === 200) {
+        toast.success(
+          "OTP has been resent successfully. Please check your email."
+        );
+      }
+    } catch (error: any) {
+      if (error.response && error.response.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Failed to resend OTP. Please try again.");
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen flex justify-center items-center px-4">

@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useConfigStore } from "../store/configStore";
+
+const baseUrl = useConfigStore.getState().baseUrl;
+
 interface ForgetValues {
   email: string;
 }
@@ -20,16 +26,34 @@ const validationSchema = Yup.object({
 const ForgetPassword = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: ForgetValues,
     { resetForm }: { resetForm: () => void }
   ) => {
-    toast.success(" Successful");
-    console.log(values);
-    resetForm();
-    setTimeout(() => {
-      navigate("/forget-password/otp-verification");
-    }, 2000);
+    try {
+      console.log(values);
+
+      const response = await axios.post(
+        `${baseUrl}/training/auth/forgot-password`,
+        values
+      );
+
+      if (response.status === 200) {
+        const expirationTime = new Date(new Date().getTime() + 10 * 60 * 1000); // 10 minutes in milliseconds
+
+        Cookies.set("email", values.email, { expires: expirationTime });
+        toast.success("OTP sent successfully to your email.");
+        resetForm();
+        setTimeout(() => {
+          navigate("/forget-password/otp-verification");
+        }, 2000);
+      } else {
+        toast.error(response.data.message || "Sending OTP failed!");
+      }
+    } catch (error: any) {
+      console.error("OTP send error:", error);
+      toast.error(error.response?.data?.message || "Sending OTP failed!");
+    }
   };
 
   return (

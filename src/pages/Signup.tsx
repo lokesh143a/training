@@ -4,6 +4,10 @@ import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useConfigStore } from "../store/configStore";
+import axios from "axios";
+
+const baseUrl = useConfigStore.getState().baseUrl;
 
 // Type for form values
 interface SignUpValues {
@@ -37,20 +41,28 @@ const validationSchema = Yup.object({
 });
 
 const Signup = () => {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  const handleSubmit = (
+  const handleSubmit = async (
     values: SignUpValues,
     { resetForm }: { resetForm: () => void }
   ) => {
-    toast.success("User created successfully!");
-    console.log(values);
-    resetForm();
+    try {
+      const response = await axios.post(
+        `${baseUrl}/training/auth/register`,
+        values
+      );
+      console.log("Signup Success:", response.data);
+      toast.success("User created successfully!");
+      resetForm();
 
-    setTimeout(()=> {
-        navigate("/login")
-    },2000)
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (error: any) {
+      console.error("Signup Error:", error);
+      toast.error(error.response?.data?.message || "Signup failed");
+    }
   };
 
   return (

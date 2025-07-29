@@ -4,6 +4,13 @@ import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useConfigStore } from "../store/configStore";
+import { useNavigate } from "react-router-dom";
+
+const baseUrl = useConfigStore.getState().baseUrl;
+
 interface PasswordValues {
   newPassword: string;
   confirmPassword: string;
@@ -27,12 +34,48 @@ const validationSchema = Yup.object({
 });
 
 const ResetPassword = () => {
-  const handleSubmit = (
-    _values: PasswordValues,
+  const navigate = useNavigate();
+
+  const handleSubmit = async (
+    values: PasswordValues,
     { resetForm }: { resetForm: () => void }
   ) => {
-    toast.success("Password changed successfully");
-    resetForm();
+    const email = Cookies.get("email");
+
+    if (!email) {
+      toast.error("Email not found. Please try again.");
+      return;
+    }
+
+    if (values.newPassword !== values.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${baseUrl}/training/auth/reset-password`,
+        {
+          email,
+          newPassword: values.newPassword,
+          confirmPassword: values.confirmPassword,
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Password changed successfully");
+        resetForm();
+        Cookies.remove("email");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      } else {
+        toast.error(response.data.message || "Password resetting failed");
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+      console.error("Reset error:", error);
+    }
   };
 
   return (

@@ -4,6 +4,11 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useConfigStore } from "../store/configStore";
+
+const baseUrl = useConfigStore.getState().baseUrl;
 
 interface LoginValues {
   email: string;
@@ -25,17 +30,40 @@ const validationSchema = Yup.object({
 const Login = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (
-    _values: LoginValues,
+  const handleSubmit = async (
+    values: LoginValues,
     { resetForm }: { resetForm: () => void }
   ) => {
-    toast.success("Login Successful")
-    resetForm();
+    try {
 
-    setTimeout(()=> {
-        navigate("/")
-    },2000)
+      const response = await axios.post(
+        `${baseUrl}/training/auth/login`,
+        values,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Login Response:", response);
+
+      if (response.status === 200) {
+        Cookies.set("token", response.data.token, { expires: 1 });
+        toast.success("Login Successful!");
+        resetForm();
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } else {
+        toast.error(response.data.message || "Login failed!");
+      }
+    } catch (error: any) {
+      console.error("Login error:", error);
+      toast.error(error.response?.data?.message || "Login failed!");
+    }
   };
+
   return (
     <div className="min-h-screen w-full flex justify-center items-center px-4">
       <div className="w-full max-w-md p-6 sm:p-8 border border-borderColor rounded-lg my-6 md:my-10">
