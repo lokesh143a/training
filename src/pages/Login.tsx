@@ -7,7 +7,10 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useConfigStore } from "../store/configStore";
+import { useState } from "react";
+import Loader from "../components/common/Loader";
 
+// this is outside the component we call it like this
 const baseUrl = useConfigStore.getState().baseUrl;
 
 interface LoginValues {
@@ -29,13 +32,17 @@ const validationSchema = Yup.object({
 
 const Login = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // inside the component we call it like this from zustand
+  // const baseUrl = useConfigStore((state) => state.baseUrl)
 
   const handleSubmit = async (
     values: LoginValues,
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
-
+      setIsLoading(true);
       const response = await axios.post(
         `${baseUrl}/training/auth/login`,
         values,
@@ -56,11 +63,14 @@ const Login = () => {
           navigate("/");
         }, 2000);
       } else {
+        
         toast.error(response.data.message || "Login failed!");
       }
     } catch (error: any) {
       console.error("Login error:", error);
       toast.error(error.response?.data?.message || "Login failed!");
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -141,6 +151,10 @@ const Login = () => {
 
       {/* Toast container */}
       <ToastContainer position="top-right" autoClose={3000} />
+      {/* loader */}
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        {isLoading && <Loader />}
+      </div>
     </div>
   );
 };

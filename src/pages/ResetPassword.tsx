@@ -8,6 +8,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useConfigStore } from "../store/configStore";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/common/Loader";
+import { useState } from "react";
 
 const baseUrl = useConfigStore.getState().baseUrl;
 
@@ -35,6 +37,8 @@ const validationSchema = Yup.object({
 
 const ResetPassword = () => {
   const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+  
 
   const handleSubmit = async (
     values: PasswordValues,
@@ -53,6 +57,7 @@ const ResetPassword = () => {
     }
 
     try {
+      setIsLoading(true)
       const response = await axios.post(
         `${baseUrl}/training/auth/reset-password`,
         {
@@ -75,6 +80,8 @@ const ResetPassword = () => {
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong");
       console.error("Reset error:", error);
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -168,6 +175,10 @@ const ResetPassword = () => {
       </div>
       {/* Toast container */}
       <ToastContainer position="top-right" autoClose={3000} />
+      {/* loader */}
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        {isLoading && <Loader />}
+      </div>
     </div>
   );
 };

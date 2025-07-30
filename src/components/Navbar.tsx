@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { data } from "../assets/data";
 import { useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Navbar: React.FC = () => {
   const location = useLocation();
+  const [showProfile, setShowProfile] = useState<boolean>(false);
 
   const hideNavbarIcons: string[] = [
     "/login",
@@ -14,6 +16,25 @@ const Navbar: React.FC = () => {
   ];
 
   const shouldShowIcons: boolean = !hideNavbarIcons.includes(location.pathname);
+
+  const profileSection = (): React.ReactNode => {
+    return (
+      <div className="absolute right-0  bg-white text-black shadow-lg rounded-lg w-40 p-3 z-50 flex flex-col justify-center items-center gap-2">
+        <p className="cursor-pointer text-[darkBlue] hover:text-red-500 font-semibold">
+          Profile
+        </p>
+        <p
+          onClick={() => {
+            Cookies.remove("token");
+            window.location.href = "/login";
+          }}
+          className="cursor-pointer text-[darkBlue] hover:text-red-500 font-semibold"
+        >
+          Logout
+        </p>
+      </div>
+    );
+  };
 
   return (
     <div className="w-full h-[80px] bg-darkBlue flex justify-between items-center pl-2 md:pl-[57px] fixed top-0 z-30">
@@ -48,12 +69,34 @@ const Navbar: React.FC = () => {
             src={data.messageIcon}
             alt="message"
           />
-          <div className="rounded-full border sm:border-[3px] md:border-[7px] border-[#C1E0FF47] ">
+          {/* <div
+            onMouseEnter={() => setShowProfile(true)}
+            onMouseLeave={() => setShowProfile(false)}
+            className="rounded-full border sm:border-[3px] md:border-[7px] border-[#C1E0FF47] "
+          >
             <img
               className="w-6 h-6 sm:w-[20px] sm:h-[20px] md:w-[40px] md:h-[40px] rounded-full"
               src={data.profileImg}
               alt="profile"
             />
+          </div> */}
+
+          {/* Profile Hover */}
+          <div
+            onMouseEnter={() => setShowProfile(true)}
+            onMouseLeave={() => setShowProfile(false)}
+            className="relative"
+          >
+            <div className="rounded-full border sm:border-[3px] md:border-[7px] border-[#C1E0FF47]">
+              <img
+                className="w-6 h-6 sm:w-[20px] sm:h-[20px] md:w-[40px] md:h-[40px] rounded-full"
+                src={data.profileImg}
+                alt="profile"
+              />
+            </div>
+
+            {/* Profile Popup */}
+            {showProfile && profileSection()}
           </div>
         </div>
       )}

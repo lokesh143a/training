@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useConfigStore } from "../store/configStore";
+import { useState } from "react";
+import Loader from "../components/common/Loader";
 
 const baseUrl = useConfigStore.getState().baseUrl;
 
@@ -19,6 +21,7 @@ const validationSchema = Yup.object({
 
 const OtpVerification = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = async (
     values: { otp: string },
@@ -32,6 +35,7 @@ const OtpVerification = () => {
     }
 
     try {
+      setIsLoading(true);
       const payload = {
         email,
         otp: values.otp,
@@ -54,6 +58,8 @@ const OtpVerification = () => {
     } catch (error: any) {
       console.error("OTP verification error:", error);
       toast.error(error.response?.data?.message || "OTP verification failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -68,6 +74,7 @@ const OtpVerification = () => {
     }
 
     try {
+      setIsLoading(true);
       const response = await axios.post(`${baseUrl}/training/auth/resend-otp`, {
         email,
       });
@@ -83,6 +90,8 @@ const OtpVerification = () => {
       } else {
         toast.error("Failed to resend OTP. Please try again.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -148,6 +157,10 @@ const OtpVerification = () => {
       </div>
       {/* Toast container */}
       <ToastContainer position="top-right" autoClose={3000} />
+      {/* loader */}
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        {isLoading && <Loader />}
+      </div>
     </div>
   );
 };

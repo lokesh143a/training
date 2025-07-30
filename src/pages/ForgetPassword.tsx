@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useConfigStore } from "../store/configStore";
+import { useState } from "react";
+import Loader from "../components/common/Loader";
 
 const baseUrl = useConfigStore.getState().baseUrl;
 
@@ -25,14 +27,15 @@ const validationSchema = Yup.object({
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+  
 
   const handleSubmit = async (
     values: ForgetValues,
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
-      console.log(values);
-
+      setIsLoading(true)
       const response = await axios.post(
         `${baseUrl}/training/auth/forgot-password`,
         values
@@ -53,6 +56,8 @@ const ForgetPassword = () => {
     } catch (error: any) {
       console.error("OTP send error:", error);
       toast.error(error.response?.data?.message || "Sending OTP failed!");
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -110,6 +115,10 @@ const ForgetPassword = () => {
       </div>
       {/* Toast container */}
       <ToastContainer position="top-right" autoClose={3000} />
+       {/* loader */}
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        {isLoading && <Loader />}
+      </div>
     </div>
   );
 };

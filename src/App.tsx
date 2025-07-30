@@ -1,23 +1,29 @@
-import React from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import Signup from "./pages/Signup";
+import React, { Suspense, lazy } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import ProtectedRoute from "./protectedRoute/ProtectedRoute";
+import Loader from "./components/common/Loader";
+
+//  Non-lazy routes
+import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import ForgetPassword from "./pages/ForgetPassword";
 import OtpVerification from "./pages/OtpVerification";
 import ResetPassword from "./pages/ResetPassword";
-// import HiFiClubDashboard from "./pages/HiFiClubDashboard";
-import Dashboard from "./pages/Dashboard";
-import Sidebar from "./components/Sidebar";
 
-import Notfound from "./components/Notfound";
-import League from "./pages/League";
-import Competitions from "./pages/Competitions";
-import Teams from "./pages/Teams";
-import Fixtures from "./pages/Fixtures";
+//  Lazy-loaded routes
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const League = lazy(() => import("./pages/League"));
+const Competitions = lazy(() => import("./pages/Competitions"));
+const Teams = lazy(() => import("./pages/Teams"));
+const Fixtures = lazy(() => import("./pages/Fixtures"));
+const Notfound = lazy(() => import("./components/Notfound"));
 
 const App: React.FC = () => {
   const location = useLocation();
+  const token = Cookies.get("token");
 
   const hideSidebarRoutes: string[] = [
     "/login",
@@ -32,37 +38,95 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="">
+    <div>
       <Navbar />
 
-      <div className="flex mt-[80px] ">
+      <div className="flex mt-[80px]">
         {shouldShowSidebar && <Sidebar />}
 
         <div
           className={
-            shouldShowSidebar ? "ml-[80px] md:ml-[221px] flex-1 " : "flex-1"
+            shouldShowSidebar ? "ml-[80px] md:ml-[221px] flex-1" : "flex-1"
           }
         >
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/league" element={<League />} />
-            <Route path="/competitions" element={<Competitions />} />
-            <Route path="/teams" element={<Teams />} />
-            <Route path="/fixtures" element={<Fixtures />} />
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              {/*  Non-lazy public routes */}
+              <Route
+                path="/sign-up"
+                element={token ? <Navigate to="/" replace /> : <Signup />}
+              />
+              <Route
+                path="/login"
+                element={token ? <Navigate to="/" replace /> : <Login />}
+              />
+              <Route path="/forget-password">
+                <Route
+                  index
+                  element={
+                    token ? <Navigate to="/" replace /> : <ForgetPassword />
+                  }
+                />
+                <Route
+                  path="otp-verification"
+                  element={
+                    token ? <Navigate to="/" replace /> : <OtpVerification />
+                  }
+                />
+                <Route
+                  path="reset-password"
+                  element={
+                    token ? <Navigate to="/" replace /> : <ResetPassword />
+                  }
+                />
+              </Route>
 
-            {/* signup and login routes */}
-            <Route path="/sign-up" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            {/* forget password section */}
-            <Route path="/forget-password">
-              <Route index element={<ForgetPassword />} />
-              <Route path="otp-verification" element={<OtpVerification />} />
-              <Route path="reset-password" element={<ResetPassword />} />
-            </Route>
+              {/*  Lazy-loaded protected routes */}
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/league"
+                element={
+                  <ProtectedRoute>
+                    <League />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/competitions"
+                element={
+                  <ProtectedRoute>
+                    <Competitions />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/teams"
+                element={
+                  <ProtectedRoute>
+                    <Teams />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/fixtures"
+                element={
+                  <ProtectedRoute>
+                    <Fixtures />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* not found route */}
-            <Route path="*" element={<Notfound />} />
-          </Routes>
+              {/* Fallback for unmatched routes */}
+              <Route path="*" element={<Notfound />} />
+            </Routes>
+          </Suspense>
         </div>
       </div>
     </div>
