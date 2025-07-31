@@ -1,102 +1,90 @@
+import React from "react";
 import { useState } from "react";
-import { data } from "../assets/data";
-import Button from "../components/Button/Button";
-import Table from "../components/Table/Table";
+import { data } from "../../assets/data";
+import Button from "../../components/Button/Button";
+import Table from "../../components/Table/Table";
 import { useNavigate } from "react-router-dom";
 
-type CompetitionsData = {
+type ClubsData = {
   id: string | number;
-  competitionName: string;
-  team: number;
-  grade: string;
-  status: string;
+  clubName: string;
+  country: string;
+  competitions: string;
+  team: string | number;
 };
 
-const originalCompetitionsData: CompetitionsData[] = [
+const originalClubData: ClubsData[] = [
   {
     id: "01",
-    competitionName: "Alberta Australian Football League",
+    clubName: "Manchester United FC",
+    country: "North West England",
+    competitions: "Premier League",
     team: 20,
-    grade: "Under 18",
-    status: "Complete",
   },
   {
     id: "02",
-    competitionName: "Alberta Australian Football League",
+    clubName: "Manchester United FC",
+    country: "North West England",
+    competitions: "Premier League",
     team: 20,
-    grade: "Under 18",
-    status: "Ongoing",
   },
 ];
 
-const tableHeaders = ["COMPETITION NAME", "TEAM", "GRADE", "STATUS", "MANAGE"];
+const tableHeaders = ["CLUB NAME", "COUNTRY", "COMPETITIONS", "TEAM", "MANAGE"];
 
-const CompetitionsKeys = [
-  "competitionName",
+const clubKeys = [
+  "clubName",
+  "country",
+  "competitions",
   "team",
-  "grade",
-  "status",
   "manage",
 ];
 
-const Competitions = () => {
+const Club: React.FC = () => {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-  const [selectedGrade, setSelectedGrade] = useState("");
+  const [search, setSearch] = useState<string>("");
+  const [selectedClub, setSelectedClub] = useState<string>("");
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditCompitionPopUp, setisEditCompitionPopUp] = useState(false);
+  //   image upload path
+  const [fileName, setFileName] = useState("");
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isEditClubPopUp, setisEditClubPopUp] =
+    useState<boolean>(false);
+
+  // handle file change
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFileName(file.name); // or file.path for desktop apps like Electron
+    }
+  };
 
   // filtered data
-  const filteredData = originalCompetitionsData.filter((item) => {
-    const matchesSearch = item.competitionName
+  const filteredData = originalClubData.filter((item) => {
+    const matchesSearch = item.clubName
       .toLowerCase()
       .includes(search.toLowerCase());
 
-    const matchesGrade = selectedGrade
-      ? item.grade.toLowerCase() === selectedGrade.toLowerCase()
-      : true;
-
-    return matchesSearch && matchesGrade;
+    return matchesSearch
   });
 
   const transformedTableData: Array<Record<string, React.ReactNode>> =
     filteredData.map((item) => ({
       ...item,
-      competitionName: (
+      clubName: (
         <p
-          onClick={() => navigate("/teams")}
+          onClick={() => navigate("/club-team-management")}
           className="text-[#383838] font-bold text-12px md:text-[20px] cursor-pointer hover:text-gray-600 "
         >
-          {item.competitionName}
+          {item.clubName}
         </p>
       ),
-      status:
-        item.status === "Complete" ? (
-          <span className="inline-block  text-[8px] md:text-[14px] rounded-full text-[#22C55E] bg-green-50 w-full md:w-[97px] h-[25px] font-semibold">
-            {item.status}
-          </span>
-        ) : (
-          <div className="relative inline-block w-full md:w-[97px] h-[25px]">
-            <select
-              defaultValue={item.status}
-              className="appearance-none inline-flex items-center justify-center text-[8px] md:text-[14px] outline-none rounded-full text-[#A8A8A8] bg-[#E5E5E5] w-full h-full font-medium pl-2 pr-6 text-center"
-            >
-              <option value="Ongoing">Ongoing</option>
-              <option value="Complete">Complete</option>
-            </select>
-            <img
-              src={data.downArrow}
-              alt="Arrow"
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none w-3 h-3"
-            />
-          </div>
-        ),
-
+      
       manage: (
         <div className="flex items-center gap-2 md:gap-4">
           <img
-            onClick={() => setisEditCompitionPopUp(true)}
+            onClick={() => setisEditClubPopUp(true)}
             className="md:w-[16.67px] md:h-[18.32px] cursor-pointer"
             src={data.editIcon}
             alt="Edit"
@@ -130,14 +118,49 @@ const Competitions = () => {
         {/* select grade */}
         <div className="relative flex w-full max-w-[180px] md:w-[153px] md:h-[48px] text-[#7F7D7D] border border-[#C7C7C7] rounded-[5.47px] px-3 py-2">
           <select
-            value={selectedGrade}
-            onChange={(e) => setSelectedGrade(e.target.value)}
+            value={selectedClub}
+            onChange={(e) => setSelectedClub(e.target.value)}
             className="w-full appearance-none bg-transparent text-[12px] md:text-[16px] focus:outline-none"
             name=""
             id=""
           >
-            <option>Select Grade</option>
-            <option value="under 18">Under 18</option>
+            <option>Select Club</option>
+          </select>
+
+          {/* Custom dropdown icon */}
+          <img
+            className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 w-[16.41px] h-[16.41px]"
+            src={data.downArrow}
+            alt="Dropdown Arrow"
+          />
+        </div>
+
+        {/* select competition */}
+        <div className="relative flex w-full max-w-[180px] md:w-[180px] md:h-[48px] text-[#7F7D7D] border border-[#C7C7C7] rounded-[5.47px] px-3 py-2">
+          <select
+            className="w-full appearance-none bg-transparent text-[12px] md:text-[16px] focus:outline-none"
+            name=""
+            id=""
+          >
+            <option>Select Competition</option>
+          </select>
+
+          {/* Custom dropdown icon */}
+          <img
+            className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 w-[16.41px] h-[16.41px]"
+            src={data.downArrow}
+            alt="Dropdown Arrow"
+          />
+        </div>
+
+        {/* select country */}
+        <div className="relative flex w-full max-w-[180px] md:w-[153px] md:h-[48px] text-[#7F7D7D] border border-[#C7C7C7] rounded-[5.47px] px-3 py-2">
+          <select
+            className="w-full appearance-none bg-transparent text-[12px] md:text-[16px] focus:outline-none"
+            name=""
+            id=""
+          >
+            <option>Select Country</option>
           </select>
 
           {/* Custom dropdown icon */}
@@ -191,8 +214,8 @@ const Competitions = () => {
     return (
       <div className="inset-0 fixed flex items-center justify-center">
         <form className="max-h-[489.3px] md:h-[489.3px] w-[250px] md:w-[526px] px-[10px] md:px-[20px] py-[16px] md:py-[32px] border shadow-md bg-white rounded-[9.96px] flex flex-col gap-2 md:gap-4">
-          <h1 className="text-[#313131] font-bold w-full text-center text-[10px] md:text-[19.93px] ">
-            Create New Competition
+          <h1 className="text-[#313131] font-bold w-full text-center text-[12px] md:text-[24px] ">
+            Create New Club
           </h1>
 
           {/* id */}
@@ -201,22 +224,22 @@ const Competitions = () => {
               className="text-[#646464] text-[10px] md:text-[14px]"
               htmlFor=""
             >
-              Competition ID
+              Club ID
             </label>
             <input
               disabled
               className="border border-[#E5E5E5] h-[42px] px-2 md:px-4  outline-none rounded-[4px] placeholder:opacity-[60%] "
               type="text"
-              placeholder={`00${originalCompetitionsData.length + 1}`}
+              placeholder={`00${originalClubData.length + 1}`}
             />
           </div>
-          {/* competation name */}
+          {/* club name */}
           <div className="flex flex-col gap-2">
             <label
               className="text-[#646464] text-[10px] md:text-[14px]"
               htmlFor=""
             >
-              Competition Name
+              Club Name
             </label>
             <input
               className="border border-[#E5E5E5] h-[42px] px-2 md:px-4  outline-none rounded-[4px]  "
@@ -224,13 +247,13 @@ const Competitions = () => {
             />
           </div>
 
-          {/* select league */}
+          {/* select country */}
           <div className="flex flex-col gap-2">
             <label
               className="text-[#646464] text-[10px] md:text-[14px]"
               htmlFor=""
             >
-              Select League
+              Country Name
             </label>
             <div className="relative border border-[#E5E5E5] h-[42px] px-2 md:px-4 rounded-[4px] flex ">
               <select
@@ -250,65 +273,72 @@ const Competitions = () => {
             </div>
           </div>
 
-          {/* select grade */}
+          {/* upload logo */}
           <div className="flex flex-col gap-2">
             <label
               className="text-[#646464] text-[10px] md:text-[14px]"
               htmlFor=""
             >
-              Select Grade
+              Logo
             </label>
-            <div className="relative border border-[#E5E5E5] h-[42px] px-2 md:px-4 rounded-[4px] flex ">
-              <select
-                className=" w-full outline-none bg-transparent appearance-none text-[#646464] text-[11px] md:text-[16px]"
-                name=""
-                id=""
-              >
-                <option>Select</option>
-                <option value="Under 18">Under 18</option>
-              </select>
+            <div className="relative border border-[#E5E5E5] h-[42px] px-2 md:px-4 rounded-[4px] flex justify-between items-center">
+              {/* Show file name or default text on the left */}
+              <p className="text-left text-sm text-[#646464] font-normal text-[11px] md:text-[16px] ">
+                {fileName ? fileName : "Upload Logo"}
+              </p>
 
-              {/* Custom dropdown icon */}
-              <img
-                className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 w-[16.41px] h-[16.41px]"
-                src={data.downArrow}
-                alt="Dropdown Arrow"
+              {/* Upload Button on the right */}
+              <label
+                htmlFor="upload-logo"
+                className="border border-[#C7C7C7] text-[#777777] text-[8px] py-[5.98px] px-[11.21px]  md:text-[12px] bg-[#E5E5E5] w-auto md:w-[100px] h-[29px] rounded-[5.96px] cursor-pointer flex justify-center items-center"
+              >
+                Upload Logo
+              </label>
+
+              {/* Hidden file input */}
+              <input
+                type="file"
+                id="upload-logo"
+                accept="image/*"
+                className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                onChange={handleFileChange}
               />
             </div>
           </div>
 
-          {/* add league button */}
+          {/* add club button */}
           <Button
-            onClick={() => alert("clicked add competation btn")}
+            onClick={() => alert("clicked add club btn")}
             bgColor="#EE3243"
-            width="203px"
+            width="140px"
             height="44px"
             padding="11px 34px"
             color="#F5F5F5"
             borderRadius="5.59px"
-            className="self-end text-[#F5F5F5] bg-[#EE3243] w-full md:w-[163px] h-[30px] md:h-[44px] text-[12px] md:text-[18px] md:px-[34px] md:py-[11px] rounded-[5.59px] "
+            className="self-end text-[#F5F5F5] bg-[#EE3243] w-full md:w-[140px] h-[30px] md:h-[44px] text-[12px] md:text-[18px] md:px-[34px] md:py-[11px] rounded-[5.59px] "
           >
-            Add Competition
+            Add Club
           </Button>
         </form>
       </div>
     );
   };
 
-  const editLeaguePopUp = () => {
+  const editClubPopUp = () => {
     return (
       <div className="inset-0 fixed flex items-center justify-center">
-        <form className=" h-auto w-[250px] md:w-[526px] px-[10px] md:px-[20px] py-[16px] md:py-[32px] border shadow-md bg-white rounded-[9.96px] flex flex-col gap-2 md:gap-4">
-          <h1 className="text-[#313131] font-bold w-full text-center text-[10px] md:text-[19.93px] ">
-            Edit Competition
+        <form className="max-h-[409.3px] md:h-[409.3px] w-[250px] md:w-[526px] px-[10px] md:px-[20px] py-[16px] md:py-[32px] border shadow-md bg-white rounded-[9.96px] flex flex-col gap-2 md:gap-4">
+          <h1 className="text-[#313131] font-bold w-full text-center text-[12px] md:text-[24px] ">
+            Edit Club
           </h1>
-          {/* league name */}
+
+          {/* club name */}
           <div className="flex flex-col gap-2">
             <label
               className="text-[#646464] text-[10px] md:text-[14px]"
               htmlFor=""
             >
-              League Competition
+              Club Name
             </label>
             <input
               className="border border-[#E5E5E5] h-[42px] px-2 md:px-4  outline-none rounded-[4px]  "
@@ -316,13 +346,13 @@ const Competitions = () => {
             />
           </div>
 
-          {/* select league */}
+          {/* select country */}
           <div className="flex flex-col gap-2">
             <label
               className="text-[#646464] text-[10px] md:text-[14px]"
               htmlFor=""
             >
-              Select League
+              Country Name
             </label>
             <div className="relative border border-[#E5E5E5] h-[42px] px-2 md:px-4 rounded-[4px] flex ">
               <select
@@ -342,44 +372,51 @@ const Competitions = () => {
             </div>
           </div>
 
-          {/* select grade */}
+          {/* upload logo */}
           <div className="flex flex-col gap-2">
             <label
               className="text-[#646464] text-[10px] md:text-[14px]"
               htmlFor=""
             >
-              Select Grade
+              Logo
             </label>
-            <div className="relative border border-[#E5E5E5] h-[42px] px-2 md:px-4 rounded-[4px] flex ">
-              <select
-                className=" w-full outline-none bg-transparent appearance-none text-[#646464] text-[11px] md:text-[16px]"
-                name=""
-                id=""
-              >
-                <option>Select</option>
-                <option value="Under 18">Under 18</option>
-              </select>
+            <div className="relative border border-[#E5E5E5] h-[42px] px-2 md:px-4 rounded-[4px] flex justify-between items-center">
+              {/* Show file name or default text on the left */}
+              <p className="text-left text-sm text-[#646464] font-normal text-[11px] md:text-[16px] ">
+                {fileName ? fileName : "Upload Logo"}
+              </p>
 
-              {/* Custom dropdown icon */}
-              <img
-                className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 w-[16.41px] h-[16.41px]"
-                src={data.downArrow}
-                alt="Dropdown Arrow"
+              {/* Upload Button on the right */}
+              <label
+                htmlFor="upload-logo"
+                className="border border-[#C7C7C7] text-[#777777] text-[8px] py-[5.98px] px-[11.21px]  md:text-[12px] bg-[#E5E5E5] w-auto md:w-[100px] h-[29px] rounded-[5.96px] cursor-pointer flex justify-center items-center"
+              >
+                Upload Logo
+              </label>
+
+              {/* Hidden file input */}
+              <input
+                type="file"
+                id="upload-logo"
+                accept="image/*"
+                className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                onChange={handleFileChange}
               />
             </div>
           </div>
 
-          {/* add league button */}
+          {/* add club button */}
           <Button
-            onClick={() => alert("clicked update compititon button")}
-            color="#F5F5F5"
-            width="203px"
-            height="44px"
+            onClick={() => alert("clicked add club btn")}
             bgColor="#EE3243"
+            width="140px"
+            height="44px"
+            padding="11px 34px"
+            color="#F5F5F5"
             borderRadius="5.59px"
-            className="self-end w-full md:w-[189px] h-[30px] md:h-[44px] text-[12px] md:text-[18px] px-[12px] md:px-[34px] py-[6px] md:py-[11px]"
+            className="self-end text-[#F5F5F5] bg-[#EE3243] w-full md:w-[140px] h-[30px] md:h-[44px] text-[12px] md:text-[18px] md:px-[34px] md:py-[11px] rounded-[5.59px] "
           >
-            Update Competition
+            Add Club
           </Button>
         </form>
       </div>
@@ -396,7 +433,7 @@ const Competitions = () => {
         {/* top section */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-2">
           <h1 className="text-[#1C1C1C] font-semibold text-lg md:text-[30px]">
-            Competitions
+            Club Management
           </h1>
           <div className="flex gap-2">
             <Button
@@ -420,7 +457,7 @@ const Competitions = () => {
               borderRadius="8.14px"
               borderColor="none"
             >
-              Create Competition
+              Create Club
             </Button>
           </div>
         </div>
@@ -431,14 +468,14 @@ const Competitions = () => {
         {/* competation table */}
         <Table
           filteredData={transformedTableData}
-          keyNames={CompetitionsKeys}
+          keyNames={clubKeys}
           tableHeaders={tableHeaders}
         />
       </div>
       {isModalOpen && modalPopUp()}
-      {isEditCompitionPopUp && editLeaguePopUp()}
+      {isEditClubPopUp && editClubPopUp()}
     </div>
   );
 };
 
-export default Competitions;
+export default Club;

@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useConfigStore } from "../store/configStore";
 import axios from "axios";
+import Loader from "../components/common/Loader";
+import { useState } from "react";
 
 const baseUrl = useConfigStore.getState().baseUrl;
 
@@ -42,12 +44,14 @@ const validationSchema = Yup.object({
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = async (
     values: SignUpValues,
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
+      setIsLoading(true);
       const response = await axios.post(
         `${baseUrl}/training/auth/register`,
         values
@@ -62,6 +66,8 @@ const Signup = () => {
     } catch (error: any) {
       console.error("Signup Error:", error);
       toast.error(error.response?.data?.message || "Signup failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -186,6 +192,11 @@ const Signup = () => {
 
       {/* Toast container */}
       <ToastContainer position="top-right" autoClose={3000} />
+
+      {/* loader */}
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        {isLoading && <Loader />}
+      </div>
     </div>
   );
 };

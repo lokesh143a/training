@@ -16,9 +16,13 @@ import ResetPassword from "./pages/ResetPassword";
 //  Lazy-loaded routes
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const League = lazy(() => import("./pages/League"));
-const Competitions = lazy(() => import("./pages/Competitions"));
-const Teams = lazy(() => import("./pages/Teams"));
-const Fixtures = lazy(() => import("./pages/Fixtures"));
+const Competitions = lazy(() => import("./pages/competitons/Competitions"));
+const CompetitionTeams = lazy(() => import("./pages/competitons/CompetitionTeams"));
+const CompetitionFixtures = lazy(() => import("./pages/competitons/CompetitionFixtures"));
+const Club = lazy(() => import("./pages/club/Club"));
+const ClubTeamManagement = lazy(() => import("./pages/club/ClubTeamManagement"));
+const ClubPlayerManagement = lazy(() => import("./pages/club/ClubPlayerManagement"))
+
 const Notfound = lazy(() => import("./components/Notfound"));
 
 const App: React.FC = () => {
@@ -107,20 +111,43 @@ const App: React.FC = () => {
                 }
               />
               <Route
-                path="/teams"
+                path="/competitions-teams"
                 element={
                   <ProtectedRoute>
-                    <Teams />
+                    <CompetitionTeams />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/fixtures"
+                path="/competitions-fixtures"
                 element={
                   <ProtectedRoute>
-                    <Fixtures />
+                    <CompetitionFixtures />
                   </ProtectedRoute>
                 }
+              />
+
+              <Route
+                path="/club"
+                element={
+                  <ProtectedRoute>
+                    <Club />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+              path="/club-team-management"
+              element={<ProtectedRoute>
+                <ClubTeamManagement/>
+              </ProtectedRoute>}
+              />
+
+              <Route
+              path="/club-player-management"
+              element={<ProtectedRoute>
+                <ClubPlayerManagement/>
+              </ProtectedRoute>}
               />
 
               {/* Fallback for unmatched routes */}

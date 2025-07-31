@@ -7,7 +7,7 @@ const sidebarItems = [
   { label: "Competitions", icon: data.sidebarCompetationIcon, path: "/competitions" },
   { label: "Teams", icon: data.sidebarTeamIcon, path: "/teams" },
   { label: "Players", icon: data.sidebarPlayersIcon, path: "/players" },
-  { label: "Clubs", icon: data.sidebarClubsIcon, path: "/clubs" },
+  { label: "Clubs", icon: data.sidebarClubsIcon, path: "/club" },
   { label: "Grades", icon: data.sidebarGradeIcon, path: "/grades" },
   { label: "Fixtures", icon: data.sidebarFixturesIcon, path: "/fixtures" },
   { label: "Cost Analysis", icon: data.sidebarCostAnalysisIcon, path: "/cost-analysis" },
@@ -26,7 +26,7 @@ const Sidebar = () => {
             key={index}
             className={({ isActive }) =>
               `flex items-center md:gap-2 justify-center md:justify-start w-full h-[46px] rounded-lg px-2 cursor-pointer transition-all ${
-                isActive
+                isActive || item.path.length > 1 && window.location.pathname.startsWith(item.path) 
                   ? "border-[0.77px] border-white bg-[#FFFFFF1A]"
                   : "text-white hover:border-[0.77px] hover:border-white"
               }`

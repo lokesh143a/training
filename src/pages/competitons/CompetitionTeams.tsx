@@ -1,64 +1,58 @@
 import { useState } from "react";
-import { data, teamsData } from "../assets/data";
-import Button from "../components/Button/Button";
-import Table from "../components/Table/Table";
+import { data, teamsData } from "../../assets/data";
+import Button from "../../components/Button/Button";
+import Table from "../../components/Table/Table";
+import { useNavigate } from "react-router-dom";
 
-type fixturesData = {
-  roundNo: string | number;
-  fixtures: string;
-  dateTime: string ;
-  matchVideo: string;
-  assignAnalyst: string;
-  status: string;
+type ClubData = {
+  clubId: string | number;
+  team: string;
+  club: string;
+  playerCount: number;
 };
 
-const originalFixturesData: fixturesData[] = [
+const originalClubData: ClubData[] = [
   {
-    roundNo: "001",
-    fixtures: "Manchester United vs  XYZ",
-    dateTime: "May 12, 2025 at 15:00",
-    matchVideo: "Not Started",
-    assignAnalyst: "Assign Analyst",
-    status: "Under QA"
+    clubId: "001",
+    team: "Manchester United FC",
+    club: "Manchester United FC",
+    playerCount: 28,
   },
   {
-    roundNo: "001",
-    fixtures: "Manchester United vs  XYZ",
-    dateTime: "May 12, 2025 at 15:00",
-    matchVideo: "Not Started",
-    assignAnalyst: "Assign Analyst",
-    status: "Under QA"
+    clubId: "002",
+    team: "Manchester United FC",
+    club: "Manchester United FC",
+    playerCount: 28,
   },
 ];
 
 const tableHeaders = [
-  "ROUND NO.",
-  "FIXTURES",
-  "DATE & TIME",
-  "MATCH VIDEO",
-  "ASSIGN ANALYST",
-  "STATUS",
-  "ACTION"
-];
- 
-const fixturesKeys = [
-  "roundNo",
-  "fixtures",
-  "dateTime",
-  "matchVideo",
-  "assignAnalyst", 
-  "status",
-  "action"
+  "CLUB ID",
+  "TEAM",
+  "CLUB",
+  "PLAYER",
+  "VIEW FIXTURE",
+  "MANAGE",
 ];
 
-const Fixtures = () => {
+const clubKeys = [
+  "clubId",
+  "team",
+  "club",
+  "playerCount",
+  "viewFixture",
+  "manage",
+];
+
+const Teams = () => {
   const [search, setSearch] = useState("");
   const [selectedGrade, setSelectedGrade] = useState("");
+  const navigate = useNavigate()
 
   //   filterde data
 
-  const filteredData = originalFixturesData.filter((item) => {
-    const matchesSearch = item.fixtures
+  const filteredData = originalClubData.filter((item) => {
+    const matchesSearch = item.team
       .toLowerCase()
       .includes(search.toLowerCase());
 
@@ -68,32 +62,17 @@ const Fixtures = () => {
   const transformedTableData: Array<Record<string, React.ReactNode>> =
     filteredData.map((item) => ({
       ...item,
-      fixtures : (
-        <p className="text-[#383838] font-semibold text-[15px] md:text-[21.39px] ">{item.fixtures}</p>
-      )
-      ,
-      dateTime:(
-        <p className="font-medium text-[10px] md:text-[17.82px] text-[#4D4D4D] ">{item.dateTime}</p>
-      )
-      ,
-      matchVideo: (
-        <div className=" text-[#646464] bg-[#F3F3F3] md:w-[88px] md:h-[28px] text-[8px] md:text-[10.69px] font-semibold rounded-full flex justify-center items-center">
-          {item.matchVideo}
+      viewFixture: (
+        <div className=" w-[15px] h-[12px] md:w-[20.2px] md:h-[16.44px]">
+          <img
+          onClick={()=> navigate("/competitions-fixtures")}
+            className="w-full h-full cursor-pointer"
+            src={data.eyeIcon}
+            alt=""
+          />
         </div>
       ),
-      assignAnalyst : (
-        <div className="bg-[#EF4B41] w-full h-full px-2 py-1 text-[6px] md:text-[10.69px]  md:w-[98.2px] md:h-[27.62px] font-semibold rounded-[3.56px] border-none text-[#FFFFFF] flex justify-center items-center ">
-          {item.assignAnalyst}
-        </div>
-      ),
-      status : (
-        <div className="bg-[#FFC300] md:w-[76.63px] md:h-[27.62px] rounded-full text-[#383838] font-semibold text-[10.69px] flex justify-center items-center ">
-          {item.status}
-        </div>
-      )
-      ,
-      action:
-       (
+      manage: (
         <div className="flex items-center gap-2 md:gap-4">
           <img
             className="md:w-[16.67px] md:h-[18.32px] cursor-pointer"
@@ -118,12 +97,9 @@ const Fixtures = () => {
             src={teamsData.teamsCrossIcon}
             alt=""
           />
-          <div className="flex flex-col gap-2">
-            <h1 className="font-semibold text-[#1C1C1C] text-lg md:text-[30px]">
-              Alberta Australian Football Competition
-            </h1>
-            <p className="bg-[#13274B] text-[10px] md:text-[16px] w-[100px] py-2 md:w-[151px] md:h-[42px] text-[#FFFFFF] font-semibold flex justify-center items-center rounded-full ">SPORTS NAME</p>
-          </div>
+          <h1 className="font-semibold text-[#1C1C1C] text-lg md:text-[30px]">
+            Alberta Australian Football Competition
+          </h1>
         </div>
       </div>
     );
@@ -133,7 +109,7 @@ const Fixtures = () => {
     return (
       <div className="flex flex-col md:flex-row justify-between gap-3">
         <h1 className="text-[#1C1C1C] font-semibold text-xl md:text-[27.42px] ">
-          Team Name
+          Teams
         </h1>
 
         <div className="flex flex-wrap gap-3">
@@ -141,28 +117,29 @@ const Fixtures = () => {
             color="#4D4D4D"
             borderColor="#4D4D4D"
             borderRadius="8.42px"
-            className="md:w-[125.19px] md:h-[43.41px] font-medium md:text-[15.3px] "
+            className="md:w-[125.19px] md:h-[43.41px] font-medium md:text-[16.44px] "
           >
             Export
-          </Button>
-
-          <Button
-            color="#282828"
-            borderColor="#282828"
-            borderRadius="7.65px"
-            className="font-medium md:text-[15.3px] md:w-[116.39px] md:h-[43.4px] "
-          >
-            Import
           </Button>
 
           <Button
             color="#FFFFFF"
             bgColor="#EF4B41"
             borderColor="none"
-            borderRadius="7.65px"
-            className="font-medium md:text-[15.3px] md:w-[182.1px] md:h-[40.4px] "
+            borderRadius="7.44px"
+            className="font-medium md:text-[14.88px] md:w-[176.68px] md:h-[43.41px] "
           >
-            Add New Player
+            Create Fixtures
+          </Button>
+
+          <Button
+            color="#FFFFFF"
+            bgColor="#EF4B41"
+            borderColor="none"
+            borderRadius="7.44px"
+            className="font-medium md:text-[14.88px] md:w-[165.57px] md:h-[42.4px] "
+          >
+            Add Team
           </Button>
         </div>
       </div>
@@ -186,45 +163,6 @@ const Fixtures = () => {
             alt=""
           />
         </div>
-        {/* select club */}
-        <div className="relative flex w-full max-w-[180px] md:w-[153px] md:h-[48px] text-[#7F7D7D] border border-[#C7C7C7] rounded-[5.47px] px-3 py-2">
-          <select
-            onChange={(e) => setSelectedGrade(e.target.value)}
-            className="w-full appearance-none bg-transparent text-[12px] md:text-[16px] focus:outline-none"
-            name=""
-            id=""
-          >
-            <option>Select Club</option>
-          </select>
-
-          {/* Custom dropdown icon */}
-          <img
-            className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 w-[16.41px] h-[16.41px]"
-            src={data.downArrow}
-            alt="Dropdown Arrow"
-          />
-        </div>
-
-        {/* select team */}
-        <div className="relative flex w-full max-w-[180px] md:w-[153px] md:h-[48px] text-[#7F7D7D] border border-[#C7C7C7] rounded-[5.47px] px-3 py-2">
-          <select
-           
-            onChange={(e) => setSelectedGrade(e.target.value)}
-            className="w-full appearance-none bg-transparent text-[12px] md:text-[16px] focus:outline-none"
-            name=""
-            id=""
-          >
-            <option>Select Team</option>
-          </select>
-
-          {/* Custom dropdown icon */}
-          <img
-            className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 w-[16.41px] h-[16.41px]"
-            src={data.downArrow}
-            alt="Dropdown Arrow"
-          />
-        </div>
-
         {/* select grade */}
         <div className="relative flex w-full max-w-[180px] md:w-[153px] md:h-[48px] text-[#7F7D7D] border border-[#C7C7C7] rounded-[5.47px] px-3 py-2">
           <select
@@ -235,6 +173,25 @@ const Fixtures = () => {
             id=""
           >
             <option>Select Grade</option>
+            <option value="under 18">Under 18</option>
+          </select>
+
+          {/* Custom dropdown icon */}
+          <img
+            className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 w-[16.41px] h-[16.41px]"
+            src={data.downArrow}
+            alt="Dropdown Arrow"
+          />
+        </div>
+
+        {/* select season */}
+        <div className="relative flex w-full max-w-[170px] md:w-[147px] md:h-[48px] text-[#7F7D7D] border border-[#C7C7C7] rounded-[5.47px] px-3 py-2">
+          <select
+            className="w-full appearance-none bg-transparent text-[12px] md:text-[16px] focus:outline-none"
+            name=""
+            id=""
+          >
+            <option>Select Season</option>
           </select>
 
           {/* Custom dropdown icon */}
@@ -267,7 +224,7 @@ const Fixtures = () => {
   };
 
   return (
-    <div>
+    <div className="h-screen w-full">
       {/* top heading section */}
       {headingSection()}
 
@@ -282,13 +239,12 @@ const Fixtures = () => {
 
         <Table
           filteredData={transformedTableData}
-          keyNames={fixturesKeys}
+          keyNames={clubKeys}
           tableHeaders={tableHeaders}
-         
         />
       </div>
     </div>
   );
 };
 
-export default Fixtures;
+export default Teams;
