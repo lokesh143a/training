@@ -43,7 +43,7 @@ const teamKeys = ["id", "teamName", "club", "grade", "jerseyNo", "manage"];
 
 const ClubPlayerManagement: React.FC = () => {
   const [search, setSearch] = useState("");
-  const [selectedGrade, setSelectedGrade] = useState("");
+  // const [selectedGrade, setSelectedGrade] = useState("");
 
   //   filterde data
 
