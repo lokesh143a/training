@@ -3,7 +3,6 @@ import { useState } from "react";
 import { data, teamsData } from "../..//assets/data";
 import Button from "../../components/Button/Button";
 import Table from "../../components/Table/Table";
-import { useNavigate } from "react-router-dom";
 
 type TeamData = {
   id: string | number;
