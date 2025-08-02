@@ -6,7 +6,7 @@ const sidebarItems = [
   { label: "League", icon: data.sidebarLeagueIcon, path: "/league" },
   { label: "Competitions", icon: data.sidebarCompetationIcon, path: "/competitions" },
   { label: "Teams", icon: data.sidebarTeamIcon, path: "/teams" },
-  { label: "Players", icon: data.sidebarPlayersIcon, path: "/players" },
+  { label: "Player", icon: data.sidebarPlayersIcon, path: "/player" },
   { label: "Clubs", icon: data.sidebarClubsIcon, path: "/club" },
   { label: "Grades", icon: data.sidebarGradeIcon, path: "/grades" },
   { label: "Fixtures", icon: data.sidebarFixturesIcon, path: "/fixtures" },

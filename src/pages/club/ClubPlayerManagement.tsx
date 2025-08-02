@@ -6,7 +6,7 @@ import Table from "../../components/Table/Table";
 
 type TeamData = {
   id: string | number;
-  teamName: string;
+  playerName: string;
   club: string;
   grade: string | number;
   jerseyNo: number | string;
@@ -15,14 +15,14 @@ type TeamData = {
 const originalClubTeamData: TeamData[] = [
   {
     id: "001",
-    teamName: "John Smith",
+    playerName: "John Smith",
     club: "Manchester United FC",
     grade: "Under 18",
     jerseyNo: 18,
   },
   {
     id: "002",
-    teamName: "John Smith",
+    playerName: "John Smith",
     club: "Manchester United FC",
     grade: "Under 18",
     jerseyNo: 18,
@@ -31,7 +31,7 @@ const originalClubTeamData: TeamData[] = [
 
 const tableHeaders = [
   "ID",
-  "TEAM NAME",
+  "PLAYER NAME",
   "CLUB",
   "GRADE",
   "JERSEY NO",
@@ -47,7 +47,7 @@ const ClubPlayerManagement: React.FC = () => {
   //   filterde data
 
   const filteredData = originalClubTeamData.filter((item) => {
-    const matchesSearch = item.teamName
+    const matchesSearch = item.playerName
       .toLowerCase()
       .includes(search.toLowerCase());
 
@@ -59,7 +59,7 @@ const ClubPlayerManagement: React.FC = () => {
       ...item,
       teamName: (
         <p className="text-[#383838] font-bold text-12px md:text-[20px] ">
-          {item.teamName}
+          {item.playerName}
         </p>
       ),
       manage: (

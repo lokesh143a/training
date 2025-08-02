@@ -12,16 +12,32 @@ import Login from "./pages/Login";
 import ForgetPassword from "./pages/ForgetPassword";
 import OtpVerification from "./pages/OtpVerification";
 import ResetPassword from "./pages/ResetPassword";
+import Grades from "./pages/grades/Grades";
 
 //  Lazy-loaded routes
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const League = lazy(() => import("./pages/League"));
 const Competitions = lazy(() => import("./pages/competitons/Competitions"));
-const CompetitionTeams = lazy(() => import("./pages/competitons/CompetitionTeams"));
-const CompetitionFixtures = lazy(() => import("./pages/competitons/CompetitionFixtures"));
+const CompetitionTeams = lazy(
+  () => import("./pages/competitons/CompetitionTeams")
+);
+const CompetitionFixtures = lazy(
+  () => import("./pages/competitons/CompetitionFixtures")
+);
 const Club = lazy(() => import("./pages/club/Club"));
-const ClubTeamManagement = lazy(() => import("./pages/club/ClubTeamManagement"));
-const ClubPlayerManagement = lazy(() => import("./pages/club/ClubPlayerManagement"))
+const ClubTeamManagement = lazy(
+  () => import("./pages/club/ClubTeamManagement")
+);
+const ClubPlayerManagement = lazy(
+  () => import("./pages/club/ClubPlayerManagement")
+);
+
+const Player = lazy(() => import("./pages/player/Player"));
+const PlayerTeamDetails = lazy(
+  () => import("./pages/player/PlayerTeamDetails")
+);
+
+const Teams = lazy(() => import("./pages/teams/Teams"));
 
 const Notfound = lazy(() => import("./components/Notfound"));
 
@@ -102,6 +118,8 @@ const App: React.FC = () => {
                   </ProtectedRoute>
                 }
               />
+
+              {/* -----------competiton routes---------- */}
               <Route
                 path="/competitions"
                 element={
@@ -126,7 +144,7 @@ const App: React.FC = () => {
                   </ProtectedRoute>
                 }
               />
-
+              {/* ----------------club routes------------------ */}
               <Route
                 path="/club"
                 element={
@@ -137,17 +155,59 @@ const App: React.FC = () => {
               />
 
               <Route
-              path="/club-team-management"
-              element={<ProtectedRoute>
-                <ClubTeamManagement/>
-              </ProtectedRoute>}
+                path="/club-team-management"
+                element={
+                  <ProtectedRoute>
+                    <ClubTeamManagement />
+                  </ProtectedRoute>
+                }
               />
 
               <Route
-              path="/club-player-management"
-              element={<ProtectedRoute>
-                <ClubPlayerManagement/>
-              </ProtectedRoute>}
+                path="/club-player-management"
+                element={
+                  <ProtectedRoute>
+                    <ClubPlayerManagement />
+                  </ProtectedRoute>
+                }
+              />
+              {/* ----------------player routes--------------- */}
+              <Route
+                path="/player"
+                element={
+                  <ProtectedRoute>
+                    <Player />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/player-team-details"
+                element={
+                  <ProtectedRoute>
+                    <PlayerTeamDetails />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* ----------teams routes---------- */}
+              <Route
+                path="/teams"
+                element={
+                  <ProtectedRoute>
+                    <Teams />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* -------------grades------------ */}
+              <Route
+                path="/grades"
+                element={
+                  <ProtectedRoute>
+                    <Grades />
+                  </ProtectedRoute>
+                }
               />
 
               {/* Fallback for unmatched routes */}
